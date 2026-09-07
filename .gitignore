@@ -1,0 +1,22 @@
+node_modules/
+dist/
+artifacts/
+.env*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.log
+.DS_Store
+test-results/
+playwright-report/
+.wrangler/
+
+# Local deployment evidence and server-specific operating notes.
+# Keep these on the host; they are not part of the public source release.
+/PREFLIGHT.md
+/*-PREFLIGHT.md
+/DEPLOYMENT.md
+/DEPLOYMENT-RECORD.md
+/design-qa.md

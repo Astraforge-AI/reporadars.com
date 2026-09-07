@@ -1,0 +1,25 @@
+name: Bug report
+description: Report a reproducible problem with the catalog or website.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: Please do not include credentials, private workspace data or security-sensitive details in this public issue.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Include the affected page and the expected result.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser, device and language
+      placeholder: Chrome, desktop, English

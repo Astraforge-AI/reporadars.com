@@ -1,0 +1,287 @@
+@font-face {
+  font-family: "Yanone Cyrillic";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("@fontsource/yanone-kaffeesatz/files/yanone-kaffeesatz-cyrillic-600-normal.woff2")
+    format("woff2");
+  unicode-range: U+0400-052F, U+2DE0-2DFF, U+A640-A69F;
+}
+@font-face {
+  font-family: "Yanone Cyrillic";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("@fontsource/yanone-kaffeesatz/files/yanone-kaffeesatz-latin-600-normal.woff2")
+    format("woff2");
+  unicode-range: U+0000-024F, U+2000-206F;
+}
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("@fontsource/golos-text/files/golos-text-cyrillic-400-normal.woff2")
+    format("woff2");
+  unicode-range: U+0400-052F, U+2DE0-2DFF, U+A640-A69F;
+}
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("@fontsource/golos-text/files/golos-text-cyrillic-600-normal.woff2")
+    format("woff2");
+  unicode-range: U+0400-052F, U+2DE0-2DFF, U+A640-A69F;
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("@fontsource/ibm-plex-mono/files/ibm-plex-mono-cyrillic-400-normal.woff2")
+    format("woff2");
+  unicode-range: U+0400-052F, U+2DE0-2DFF, U+A640-A69F;
+}
+.header-actions {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 18px;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+.header-actions .journal-header-link {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.header-actions .journal-header-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+.site-header .language-switch,
+.language-switch {
+  display: flex;
+  width: auto;
+  gap: 4px;
+  flex: none;
+  align-items: center;
+  font:
+    11px "IBM Plex Mono",
+    monospace;
+}
+.language-switch a {
+  min-width: 30px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.language-switch a[aria-current="true"] {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: #83a400;
+  text-underline-offset: 6px;
+}
+.account-login-note {
+  position: absolute;
+  right: 3.5%;
+  margin-top: 12px;
+  z-index: 2;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+.account-login-note a {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 32px;
+}
+html[lang="ru"] {
+  --display: "Yanone Cyrillic", sans-serif;
+}
+html[lang="ru"] .hero h1 {
+  font-size: 150px;
+  line-height: 1.03;
+}
+html[lang="ru"] .headline-line {
+  transform: scaleX(0.62);
+}
+html[lang="ru"] .card-title {
+  font-size: 42px;
+  line-height: 1.05;
+}
+html[lang="ru"] .card-title span {
+  white-space: normal;
+}
+html[lang="ru"] .catalog-hero h1 {
+  font-size: 95px;
+  line-height: 1.1;
+}
+html[lang="ru"] .catalog-skill strong {
+  font-size: 29px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+html[lang="ru"] .skill-hero h1 {
+  font-size: 135px;
+  line-height: 1.05;
+}
+html[lang="ru"] .account-bio h1 {
+  font-size: 92px;
+  line-height: 1.1;
+  transform: none;
+  max-width: 100%;
+}
+html[lang="ru"] .account-panel h2 {
+  font-size: 29px;
+  line-height: 1.1;
+}
+html[lang="ru"] .editorial-page h1 {
+  font-size: 102px;
+  line-height: 1.04;
+}
+html[lang="ru"] .article-hero h1 {
+  font-size: 66px;
+  max-width: 900px;
+}
+html[lang="ru"] .journal-entry h2 {
+  font-size: 31px;
+  line-height: 1.1;
+}
+html[lang="ru"] .journal-row--featured .journal-entry h2 {
+  font-size: 51px;
+}
+html[lang="ru"] .article-section h2 {
+  font-size: 34px;
+  line-height: 1.1;
+}
+html[lang="ru"] .account-command .rr-command-note {
+  white-space: normal;
+}
+@media (max-width: 1200px) {
+  .site-header nav {
+    gap: 22px;
+    font-size: 11px;
+  }
+  .header-actions {
+    gap: 10px;
+  }
+  .account-header-link > span {
+    max-width: 100px;
+  }
+}
+@media (max-width: 1000px) and (min-width: 651px) {
+  .page-shell .site-header {
+    height: 138px;
+    grid-template-rows: 84px 44px;
+    padding-bottom: 9px;
+  }
+  .header-actions {
+    grid-column: 1 / -1;
+  }
+  .account-login-note {
+    position: relative;
+    margin: 6px 0;
+    right: auto;
+    display: flex;
+    justify-content: flex-end;
+  }
+  html[lang="ru"] .hero h1 {
+    font-size: 118px;
+  }
+  html[lang="ru"] .catalog-hero h1 {
+    font-size: 74px;
+  }
+  html[lang="ru"] .skill-hero h1 {
+    font-size: 95px;
+  }
+  html[lang="ru"] .account-bio h1 {
+    font-size: 68px;
+  }
+}
+@media (max-width: 650px) {
+  .page-shell .site-header {
+    height: 160px;
+    padding: 8px 0;
+    gap: 8px;
+  }
+  .header-actions {
+    width: 100%;
+    justify-content: center;
+    gap: 17px;
+  }
+  .site-header .language-switch {
+    width: auto;
+    font-size: 10px;
+    gap: 2px;
+  }
+  .header-actions .journal-header-link {
+    font-size: 10px;
+  }
+  .account-login-note {
+    position: relative;
+    margin: 3px 0;
+    right: auto;
+    display: flex;
+    justify-content: flex-end;
+  }
+  html[lang="ru"] .hero h1 {
+    font-size: clamp(62px, 16vw, 104px);
+    line-height: 1.1;
+  }
+  html[lang="ru"] .headline-line {
+    transform: scaleX(0.64);
+  }
+  html[lang="ru"] .headline-period {
+    font-size: 38px;
+  }
+  html[lang="ru"] .card-title {
+    font-size: 43px;
+  }
+  html[lang="ru"] .catalog-hero h1 {
+    font-size: clamp(48px, 12vw, 75px);
+  }
+  html[lang="ru"] .catalog-skill strong {
+    font-size: 25px;
+  }
+  html[lang="ru"] .catalog-skill {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  html[lang="ru"] .skill-hero h1 {
+    font-size: 70px;
+    overflow-wrap: anywhere;
+  }
+  html[lang="ru"] .account-bio h1 {
+    font-size: 43px;
+  }
+  html[lang="ru"] .account-panel h2 {
+    font-size: 27px;
+  }
+  html[lang="ru"] .editorial-page h1 {
+    font-size: 60px;
+  }
+  html[lang="ru"] .article-hero h1 {
+    font-size: 45px;
+  }
+  html[lang="ru"] .journal-row--featured .journal-entry h2 {
+    font-size: 40px;
+  }
+  html[lang="ru"] .article-section h2 {
+    font-size: 30px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .editorial-page *,
+  .editorial-page *::before,
+  .editorial-page *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

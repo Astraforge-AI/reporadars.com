@@ -1,0 +1,306 @@
+.unified-header,
+.unified-footer,
+.collection-list {
+  --rule: var(--line);
+  --mono: "IBM Plex Mono", monospace;
+}
+:is(.page-shell, .editorial-page) .unified-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-areas: "nav logo actions";
+  position: relative;
+  z-index: 20;
+  height: 100px;
+  gap: 20px;
+  padding: 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: center;
+}
+.unified-header > .wordmark {
+  grid-area: logo;
+  margin: 0;
+}
+.unified-header .unified-primary-nav {
+  grid-area: nav;
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.75vw, 28px);
+  font: 12px var(--mono);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.unified-header .unified-primary-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  text-decoration: none;
+}
+.unified-primary-nav a[aria-current] {
+  text-decoration: underline;
+  text-decoration-color: var(--lime);
+  text-underline-offset: 8px;
+}
+.unified-primary-nav .nav-signals svg {
+  color: var(--lime);
+  flex-shrink: 0;
+}
+.unified-header > .header-actions {
+  grid-area: actions;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  min-width: 0;
+}
+.unified-header .language-switch {
+  flex-shrink: 0;
+  gap: 0;
+}
+.workspace-disclosure {
+  position: relative;
+  min-width: 0;
+}
+.unified-header .account-header-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  max-width: 240px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font: 12px var(--mono);
+  cursor: pointer;
+}
+.account-header-link > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.account-header-link > svg {
+  flex-shrink: 0;
+}
+.account-header-link > svg:last-child {
+  transition: transform 180ms ease;
+}
+.account-header-link[aria-expanded="true"] > svg:last-child {
+  transform: rotate(180deg);
+}
+.workspace-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 16px);
+  width: 285px;
+  padding: 18px;
+  background: #f7f5ef;
+  border: 1px solid var(--rule);
+  box-shadow: 0 14px 30px #00190e12;
+}
+.workspace-menu[hidden] {
+  display: none;
+}
+.workspace-menu-label {
+  font: 12px var(--mono);
+  text-transform: uppercase;
+  margin: 0 0 10px;
+  color: var(--muted);
+}
+.workspace-menu a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+  font-size: 14px;
+  border-top: 1px solid var(--rule);
+  text-decoration: none;
+}
+.workspace-menu a:hover {
+  color: #567200;
+}
+.saved-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  background: var(--lime);
+  color: var(--ink);
+  font: 11px var(--mono);
+  border-radius: 50%;
+}
+.workspace-menu-note {
+  border-top: 1px solid var(--rule);
+  padding-top: 12px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+:is(.page-shell, .editorial-page) .unified-header--editorial {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: "logo nav actions";
+  height: 112px;
+  gap: 52px;
+}
+.unified-header--editorial .wordmark {
+  font-size: 64px;
+}
+.unified-footer {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 24px 14px;
+  margin-top: 28px;
+  border-top: 1px solid var(--rule);
+  font: 11px/1.6 var(--mono);
+}
+.footer-signature {
+  flex: 1;
+}
+.footer-signature > span {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-transform: uppercase;
+}
+.footer-signature i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--lime);
+}
+.footer-signature p {
+  margin: 3px 0 0;
+  color: var(--muted);
+}
+.unified-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0 22px;
+}
+.unified-footer a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  text-decoration: none;
+}
+.unified-footer a:hover {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+.footer-top {
+  flex-shrink: 0;
+}
+.collection-list > a {
+  width: 100%;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  padding: 20px 0;
+  text-align: left;
+  border-top: 1px solid var(--rule);
+  text-decoration: none;
+}
+.collection-list > a > span:first-child {
+  color: var(--muted);
+  font: 12px var(--mono);
+}
+.collection-list > a > span:nth-child(2) {
+  flex: 1;
+}
+.collection-list > a strong {
+  display: block;
+  font-size: 19px;
+}
+.collection-list > a small {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+}
+.collection-list > a:hover > svg {
+  transform: translateX(4px);
+}
+.collection-list > a > svg {
+  color: #7b9d08;
+  transition: transform 180ms ease;
+}
+@media (max-width: 1180px) {
+  :is(.page-shell, .editorial-page) .unified-header {
+    height: 140px;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: "logo actions" "nav nav";
+    gap: 0 24px;
+    padding-bottom: 8px;
+  }
+  .unified-header .unified-primary-nav {
+    justify-content: center;
+    gap: 32px;
+  }
+  .unified-header > .wordmark {
+    justify-self: start;
+    font-size: 64px;
+  }
+}
+@media (max-width: 650px) {
+  :is(.page-shell, .editorial-page) .unified-header {
+    height: auto;
+    min-height: 157px;
+    gap: 0 8px;
+    padding: 10px 0;
+  }
+  .unified-header > .wordmark {
+    font-size: 48px;
+  }
+  .unified-header > .header-actions {
+    gap: 6px;
+  }
+  .unified-header .account-header-link {
+    max-width: 120px;
+    gap: 3px;
+  }
+  .account-header-link > svg:first-child {
+    width: 26px;
+  }
+  .unified-header .account-header-link > span {
+    display: none;
+  }
+  .unified-header .unified-primary-nav {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0 14px;
+    font-size: 11px;
+  }
+  .unified-header .language-switch a {
+    min-width: 32px;
+  }
+  .workspace-menu {
+    width: min(285px, calc(100vw - 40px));
+    right: -78px;
+    top: calc(100% + 10px);
+  }
+  .unified-footer {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    padding: 20px 0;
+  }
+  .footer-signature {
+    flex-basis: calc(100% - 50px);
+  }
+  .unified-footer nav {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 0 20px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .account-header-link > svg:last-child,
+  .collection-list > a > svg {
+    transition: none;
+  }
+}

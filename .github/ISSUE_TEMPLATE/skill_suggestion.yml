@@ -1,0 +1,22 @@
+name: Suggest a skill
+description: Propose a useful skill or improvement to a collection.
+title: "[Skill]: "
+body:
+  - type: textarea
+    id: task
+    attributes:
+      label: What task should this skill solve?
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Sources and attribution
+      description: Link to original material and describe reuse permissions if known. Do not paste private material.
+    validations:
+      required: true
+  - type: textarea
+    id: boundaries
+    attributes:
+      label: Scope, permissions and risks
+      description: Which inputs, tools or system access would it need? What should it never do?
