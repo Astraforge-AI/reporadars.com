@@ -1,0 +1,11 @@
+[Unit]
+Description=Daily private Reporadars data backup
+
+[Timer]
+OnCalendar=*-*-* 03:40:00
+RandomizedDelaySec=600
+Persistent=true
+Unit=reporadars-backup.service
+
+[Install]
+WantedBy=timers.target

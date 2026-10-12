@@ -23,7 +23,7 @@ Drafts link to their reference material and state their scope. They are working 
 Reporadars is a public reading and exploration experience today:
 
 - The `reporadars` CLI is not published yet.
-- The login screen is a UI preview: email, GitHub, and other provider flows do not create accounts or sessions until a real provider is configured.
+- Email sign-in has a [locally tested backend and confirmation flow](docs/email-auth.md), separate from the static website. Production authentication is not activated; GitHub login and cloud synchronization remain unavailable.
 - Saved skills and profile fields are local to the current browser. Cloud sync is not configured.
 - Journal entries are editorial samples, not a release history.
 
@@ -35,7 +35,7 @@ No `.env` file is needed for a local run. Use Node.js 22 or later.
 git clone https://github.com/Astraforge-AI/reporadars.com.git
 cd reporadars.com
 npm ci
-npm run dev -- --host 127.0.0.1
+npm run dev
 ```
 
 Build and inspect the generated local preview:
@@ -62,7 +62,7 @@ npx playwright install chromium
 
 | Path       | Purpose                                                                          |
 | ---------- | -------------------------------------------------------------------------------- |
-| `src/`     | React application, routes, content registry, localization, and browser workspace |
+| `src/`     | Next.js frontend, page components, content registry, localization, and browser workspace |
 | `public/`  | Static visual assets                                                             |
 | `scripts/` | Static rendering, local preview, and capture helpers                             |
 | `tests/`   | Browser and Worker-facing checks                                                 |
@@ -77,7 +77,7 @@ Content improvements are welcome, especially source corrections, clearer scope, 
 
 ## Локально — кратко
 
-Сайт доступен на [reporadars.com/ru](https://reporadars.com/ru). Для локального запуска достаточно Node.js 22+, `npm ci` и `npm run dev -- --host 127.0.0.1`; `.env` не требуется. Каталог и журнал содержат черновики и демонстрационные материалы: CLI, реальные входы через провайдеров и облачная синхронизация пока не настроены.
+Сайт доступен на [reporadars.com/ru](https://reporadars.com/ru). Для локального запуска достаточно Node.js 22+, `npm ci` и `npm run dev`; `.env` не требуется. Каталог и журнал содержат черновики и демонстрационные материалы: CLI, реальные входы через провайдеров и облачная синхронизация пока не настроены.
 
 ## License
 

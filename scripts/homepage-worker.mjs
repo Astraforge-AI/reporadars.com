@@ -43,7 +43,10 @@ export function createHomepageWorker(files, originFetch = fetch) {
           : files["/404.html"] || files["/404"]
         : files[key];
       if (!file) {
-        if (url.pathname.startsWith("/reporadars-assets/"))
+        if (
+          url.pathname.startsWith("/reporadars-assets/") ||
+          url.pathname.startsWith("/_next/")
+        )
           return new Response("Asset not found", {
             status: 404,
             headers: {

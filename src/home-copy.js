@@ -86,9 +86,9 @@ export const homeRu = {
   Evaluation: "Оценка",
   Frameworks: "качества ИИ",
   "Technical analysis of on-page, off-page, and content signals.":
-    "Технический анализ страниц, контента и внешних сигналов.",
+    "Проверьте страницы, контент и видимость сайта в поиске.",
   "Best practices for clean, reliable embeddings at scale.":
-    "Надёжная работа с векторными данными в больших системах.",
+    "Поддерживайте порядок в данных для поиска по смыслу.",
   "Measuring what matters in LLM applications.":
     "Измерение значимых показателей в приложениях на базе LLM.",
   "SEO fundamentals": "Основы поисковой оптимизации",

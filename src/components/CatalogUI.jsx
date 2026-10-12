@@ -58,6 +58,29 @@ export function CommandBlock({ skill, compact = false }) {
   const timer = useRef();
   const command = `npx reporadars add ${skill.id}`;
   useEffect(() => () => clearTimeout(timer.current), []);
+  if (skill.imported)
+    return (
+      <div className={`rr-command ${compact ? "rr-command--compact" : ""}`}>
+        <div className="rr-command-shell">
+          <BookOpenIcon
+            size={compact ? 14 : 18}
+            weight="light"
+            aria-hidden="true"
+          />
+          <a href={skill.sourceUrl} target="_blank" rel="noopener noreferrer">
+            {skill.pinned === false
+              ? t("View source", "Открыть источник")
+              : t("View pinned source", "Открыть зафиксированный источник")}
+          </a>
+        </div>
+        <p className="rr-command-note">
+          {t(
+            "Metadata only — inspect the upstream SKILL.md before using it.",
+            "Только метаданные — изучите исходный SKILL.md перед использованием.",
+          )}
+        </p>
+      </div>
+    );
   async function copy() {
     try {
       await navigator.clipboard.writeText(command);

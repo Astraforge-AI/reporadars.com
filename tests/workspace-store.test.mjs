@@ -56,3 +56,33 @@ test("reads and writes only the owned storage key; corrupted/quota storage is ex
     /Could not save/,
   );
 });
+test("a partial live catalog preserves valid saved IDs without accepting malformed identifiers", () => {
+  const value = normalizeWorkspace(
+    {
+      ...emptyWorkspace,
+      savedIds: [
+        "older-published-skill",
+        "new-skill",
+        "../secret",
+        "new-skill",
+      ],
+    },
+    ["new-skill"],
+    true,
+  );
+  assert.deepEqual(value.savedIds, ["older-published-skill", "new-skill"]);
+  const many = normalizeWorkspace(
+    {
+      ...emptyWorkspace,
+      savedIds: Array.from({ length: 301 }, (_, i) => `saved-${i}`),
+    },
+    [],
+    true,
+  );
+  assert.equal(many.savedIds.length, 301);
+  const storage = { setItem: () => {} };
+  assert.deepEqual(
+    writeWorkspace(storage, value, [], true).value.savedIds,
+    value.savedIds,
+  );
+});

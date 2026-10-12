@@ -1,0 +1,9 @@
+[Unit]
+Description=Check Reporadars operational health every five minutes
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=5min
+Persistent=true
+Unit=reporadars-monitor.service
+[Install]
+WantedBy=timers.target

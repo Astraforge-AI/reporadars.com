@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 for (const [prefix, label, title] of [
-  ["", "Collections", "Skill Collections — Reporadars"],
+  ["", "Collections", "Skill collections — Reporadars"],
   ["/ru", "Коллекции", "Коллекции скиллов — Reporadars"],
 ]) {
   test(`${prefix || "en"} collections connect real skills and retain language`, async ({
@@ -20,7 +20,7 @@ for (const [prefix, label, title] of [
     await expect(page).toHaveURL(`${prefix}/collections`);
     await expect(page).toHaveTitle(title);
     await expect(page.locator("h1")).not.toBeEmpty();
-    await expect(page.locator("vite-error-overlay")).toHaveCount(0);
+    await expect(page.locator("#__next")).toBeVisible();
     await expect(
       page
         .locator(".unified-header")

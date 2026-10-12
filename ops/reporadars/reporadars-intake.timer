@@ -1,0 +1,11 @@
+[Unit]
+Description=Check scheduled and requested Reporadars imports
+
+[Timer]
+OnCalendar=*-*-* *:*:00 UTC
+RandomizedDelaySec=15s
+Persistent=true
+Unit=reporadars-intake.service
+
+[Install]
+WantedBy=timers.target

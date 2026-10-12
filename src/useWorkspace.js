@@ -6,17 +6,19 @@ import {
   writeWorkspace,
   WORKSPACE_KEY,
 } from "./workspace-store.js";
-import { skills } from "./data/skills.js";
-const ids = skills.map((skill) => skill.id);
+import { useCatalogSkills, useCatalogLive } from "./CatalogContext.jsx";
 
 export function useWorkspace() {
+  const ids = useCatalogSkills().map((skill) => skill.id);
+  const live = useCatalogLive();
+  const catalogKey = ids.join(",");
   const [workspace, setWorkspace] = useState(emptyWorkspace);
   const [ready, setReady] = useState(false);
   const [storageError, setStorageError] = useState(null);
   useEffect(() => {
     let loaded;
     try {
-      loaded = readWorkspace(window.localStorage, ids);
+      loaded = readWorkspace(window.localStorage, ids, live);
     } catch {
       loaded = {
         value: structuredClone(emptyWorkspace),
@@ -34,6 +36,7 @@ export function useWorkspace() {
           normalizeWorkspace(
             event.newValue ? JSON.parse(event.newValue) : null,
             ids,
+            live,
           ),
         );
       } catch {
@@ -44,15 +47,15 @@ export function useWorkspace() {
     };
     window.addEventListener("storage", sync);
     return () => window.removeEventListener("storage", sync);
-  }, []);
+  }, [catalogKey, live]);
   function update(next) {
     if (!ready) return;
     let result;
     try {
-      result = writeWorkspace(window.localStorage, next, ids);
+      result = writeWorkspace(window.localStorage, next, ids, live);
     } catch {
       result = {
-        value: normalizeWorkspace(next, ids),
+        value: normalizeWorkspace(next, ids, live),
         error:
           "Browser storage is unavailable. Changes will last only for this visit.",
       };

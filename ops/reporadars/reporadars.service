@@ -1,0 +1,47 @@
+[Unit]
+Description=Reporadars email authentication and editorial API
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=60
+StartLimitBurst=3
+
+[Service]
+Type=simple
+User=reporadars
+Group=reporadars
+WorkingDirectory=/opt/reporadars/current
+Environment=NODE_ENV=production
+Environment=AUTH_MODE=smtp
+Environment=ADMIN_PORT=4320
+Environment=ADMIN_RUNTIME_DIR=/var/lib/reporadars/runtime
+Environment=MAIL_CONFIG_FILE=/var/lib/reporadars/smtp.json
+ExecStart=/usr/bin/node server/production-start.mjs
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=25
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/reporadars/runtime
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictRealtime=true
+LockPersonality=true
+CapabilityBoundingSet=
+AmbientCapabilities=
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+SystemCallArchitectures=native
+MemoryMax=384M
+TasksMax=64
+LimitNOFILE=2048
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=reporadars
+
+[Install]
+WantedBy=multi-user.target

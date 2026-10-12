@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 
 const workspaceKey = "reporadars.workspace.v1";
 const browserErrors = new WeakMap();
+const expectedUnavailableAuth = new WeakSet();
 
 test.beforeEach(async ({ page }) => {
   const errors = [];
@@ -11,6 +12,14 @@ test.beforeEach(async ({ page }) => {
     // HTTP/2 omits the HTTP/1 reason phrase. Exempt only the deliberate
     // error document, never a missing asset or an unrelated console error.
     const url = new URL(message.location().url || "about:blank");
+    if (
+      expectedUnavailableAuth.has(page) &&
+      url.pathname === "/api/auth/request-link" &&
+      /^Failed to load resource: the server responded with a status of 503 /.test(
+        message.text(),
+      )
+    )
+      return;
     if (
       /^\/(?:ru\/)?404$/.test(url.pathname) &&
       /^Failed to load resource: the server responded with a status of 404 \((?:Not Found)?\)$/.test(
@@ -39,6 +48,26 @@ async function expectNoOverflow(page) {
 }
 
 test.describe("locale and editorial routes", () => {
+  test("English headings are readable and internal routes share one transition", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await expect(page.locator(".hero h1")).toHaveCSS(
+      "font-family",
+      /DM Sans/,
+    );
+
+    await page
+      .locator(".unified-header")
+      .getByRole("link", { name: "Journal", exact: true })
+      .click({ noWaitAfter: true });
+    await expect(page.locator("html")).toHaveAttribute(
+      "data-page-transition",
+      "leaving",
+    );
+    await page.waitForURL("/journal");
+  });
+
   test("language switching keeps the exact route, query, and fragment", async ({
     page,
   }) => {
@@ -67,10 +96,21 @@ test.describe("locale and editorial routes", () => {
     await expect(page.getByText(/signed in|вошли/i)).toHaveCount(0);
   });
 
-  test("login validates locally and reports unavailable provider without network authentication", async ({
+  test("login validates locally and truthfully handles an unavailable auth backend", async ({
     page,
   }) => {
     const requests = [];
+    expectedUnavailableAuth.add(page);
+    await page.route("**/api/auth/session", (route) =>
+      route.fulfill({ json: { user: null } }),
+    );
+    await page.route("**/api/auth/request-link", (route) =>
+      route.fulfill({
+        status: 503,
+        contentType: "application/json",
+        body: JSON.stringify({ error: { code: "UNAVAILABLE" } }),
+      }),
+    );
     page.on("request", (request) => {
       if (["fetch", "xhr"].includes(request.resourceType()))
         requests.push(request.url());
@@ -86,9 +126,17 @@ test.describe("locale and editorial routes", () => {
     await page.getByLabel("Email address").fill("person@example.test");
     await page.getByRole("button", { name: /continue with email/i }).click();
     await expect(page.getByRole("status")).toContainText(
-      /unavailable.*no provider.*no message was sent/i,
+      "We could not confirm email delivery. Please try again.",
     );
-    expect(requests).toEqual([]);
+    await expect(page.getByRole("status")).not.toContainText(
+      "Check your email",
+    );
+    expect(
+      requests.every((url) => new URL(url).pathname.startsWith("/api/auth/")),
+    ).toBe(true);
+    expect(
+      requests.filter((url) => url.endsWith("/request-link")),
+    ).toHaveLength(1);
     await expect
       .poll(() =>
         page.evaluate((key) => localStorage.getItem(key), workspaceKey),
@@ -168,7 +216,7 @@ test.describe("locale and editorial routes", () => {
   }) => {
     expect((await page.goto("/ru/404")).status()).toBe(404);
     await expect(
-      page.getByRole("heading", { name: /сигнал потерян/i }),
+      page.getByRole("heading", { name: /страница не найдена/i }),
     ).toBeVisible();
     for (const id of ["seo-audit", "security-review", "browser-testing"]) {
       await expect(

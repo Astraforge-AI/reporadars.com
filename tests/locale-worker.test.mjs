@@ -107,6 +107,33 @@ test("built SSR direct-loads every English and Russian route with language metad
   }
 });
 
+test("Next.js page data and encoded route chunks are served without origin fallback", async () => {
+  const worker = await builtWorker();
+  const homepage = await (
+    await worker.fetch(new Request("https://reporadars.com/"))
+  ).text();
+  const nextData = JSON.parse(
+    homepage.match(/<script id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/)[1],
+  );
+  for (const path of pagePaths.filter((path) => path !== "/404")) {
+    const route = path === "/" ? "/index" : path;
+    const response = await worker.fetch(
+      new Request(
+        `https://reporadars.com/_next/data/${nextData.buildId}${route}.json`,
+      ),
+    );
+    assert.equal(response.status, 200, path);
+    assert.match(response.headers.get("Content-Type"), /application\/json/);
+    assert.equal((await response.json()).pageProps.path, path);
+  }
+  const chunk = homepage.match(/src="([^"]*%5B[^\"]*\.js)"/i)[1];
+  const response = await worker.fetch(
+    new Request(`https://reporadars.com${chunk}`),
+  );
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get("Content-Type"), /javascript/);
+});
+
 test("404 routes remain errors even with a matching ETag", async () => {
   const worker = await builtWorker();
   for (const path of ["/404", "/ru/404", "/404.html"]) {

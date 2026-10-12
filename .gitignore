@@ -12,6 +12,13 @@ artifacts/
 test-results/
 playwright-report/
 .wrangler/
+.data/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.db
+*.db-wal
+*.db-shm
 
 # Local deployment evidence and server-specific operating notes.
 # Keep these on the host; they are not part of the public source release.
@@ -20,3 +27,15 @@ playwright-report/
 /DEPLOYMENT.md
 /DEPLOYMENT-RECORD.md
 /design-qa.md
+
+# Next.js and local visual verification.
+.next/
+out/
+output/
+.playwright-cli/
+
+.continuity/
+runtime-web/.next/
+runtime-web/public/
+
+/ops/reporadars/__pycache__/

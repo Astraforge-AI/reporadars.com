@@ -1,0 +1,40 @@
+[Unit]
+Description=Reporadars bounded GitHub skill discovery and package intake
+After=network-online.target reporadars.service
+Wants=network-online.target
+Requires=reporadars.service
+
+[Service]
+Type=oneshot
+User=reporadars-intake
+Group=reporadars-intake
+WorkingDirectory=/opt/reporadars/current
+Environment=NODE_ENV=production
+Environment=INTAKE_STATE_PATH=/var/lib/reporadars-intake/state/jobs.sqlite
+Environment=INTAKE_TOKEN_FILE=/var/lib/reporadars-intake/service-token
+Environment=INTAKE_BINARY=/opt/reporadars/current/bin/radar-import
+Environment=INTAKE_REPOSITORY_LIMIT=5
+ExecStart=/usr/bin/node server/intake-worker.mjs
+TimeoutStartSec=20min
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/reporadars-intake/state
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictRealtime=true
+LockPersonality=true
+CapabilityBoundingSet=
+AmbientCapabilities=
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+MemoryMax=384M
+TasksMax=64
+LimitNOFILE=2048
+StandardOutput=journal
+StandardError=journal
+

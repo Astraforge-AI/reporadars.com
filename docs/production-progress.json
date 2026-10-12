@@ -1,0 +1,922 @@
+{
+  "updatedAt": "2026-10-04T18:25:35.209897+00:00",
+  "plan": "docs/production-plan-100.md",
+  "scope": "docs/production-contract.md",
+  "publicCutover": false,
+  "productionReady": false,
+  "statusMeaning": {
+    "verified": "Проверены локальные критерии выбранного пункта; это не подтверждает внешние зависимости и весь выпуск.",
+    "implemented": "Код или процесс реализован, но часть проверок/условий пункта остаётся.",
+    "waiting": "Нужны внешние данные, действия владельца либо фактическое время наблюдения."
+  },
+  "originRelease": "20261004-production-intake-v14",
+  "stagingRelease": "20261004-production-phase11",
+  "counts": {
+    "verified": 60,
+    "waiting": 20,
+    "implemented": 20
+  },
+  "items": [
+    {
+      "id": 1,
+      "title": "Зафиксировать состав первого production-релиза.",
+      "status": "verified",
+      "evidence": [
+        "Состав выпуска, ограничения и критерии записаны в production-contract.md."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 2,
+      "title": "Обновить карту текущего состояния.",
+      "status": "verified",
+      "evidence": [
+        "Текущее состояние origin, staging и внешних этапов отражено в этом отчёте."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 3,
+      "title": "Собрать реальные примеры GitHub-сборок.",
+      "status": "waiting",
+      "evidence": [
+        "Нужны 1–3 выбранных владельцем репозитория с реальными Releases/Actions packages; fixtures не заменяют эту проверку."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 4,
+      "title": "Выбрать стартовые источники.",
+      "status": "waiting",
+      "evidence": [
+        "Источники обнаруживаются автоматически; стартовый список и права использования должен подтвердить владелец. Автопубликация по умолчанию выключена."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 5,
+      "title": "Определить, что считается опубликованным скиллом.",
+      "status": "verified",
+      "evidence": [
+        "Публичная проекция включает только published, допустимые метаданные и проверяемое происхождение."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 6,
+      "title": "Закрепить состояния и переходы.",
+      "status": "verified",
+      "evidence": [
+        "Переходы кандидатов и редакционных записей проверены, конфликты ревизий не обходятся."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 7,
+      "title": "Закрепить модель данных.",
+      "status": "verified",
+      "evidence": [
+        "SQLite хранит источники, версии, квитанции, очередь, аудит, расписание и запросы ручного запуска; миграции проверены."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 8,
+      "title": "Составить матрицу доступа.",
+      "status": "verified",
+      "evidence": [
+        "Административный grant, анонимный пользователь и служебный importer разделены; отдельная роль editor не входит в первый выпуск."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 9,
+      "title": "Назначить ответственных за эксплуатацию.",
+      "status": "waiting",
+      "evidence": [
+        "Ответственный контакт для инцидентов и участники пилота ещё не указаны."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 10,
+      "title": "Установить измеримые критерии выпуска.",
+      "status": "implemented",
+      "evidence": [
+        "Зафиксированы измеримые цели 20 читателей, p95 API 500 мс/HTML 1 с, 72 часа staging и 7 дней наблюдения. Проверка стартового объёма зависит от выбранных источников."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 11,
+      "title": "Зафиксировать воспроизводимый источник релиза.",
+      "status": "verified",
+      "evidence": [
+        "Релиз содержит исходники, lock-файлы, manifest SHA-256 и бинарник. Go воспроизведён побайтно; runtime Next.js пересобран из изолированной копии пакета. Git commit/push не выполнялись."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 12,
+      "title": "Перепроверить production-сборку Next.js.",
+      "status": "verified",
+      "evidence": [
+        "Static и runtime Next.js build проходят; финальный make verify завершился успешно."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 13,
+      "title": "Сохранить статический контракт Sites.",
+      "status": "verified",
+      "evidence": [
+        "Sites tests проходят; три требуемых dist-артефакта существуют. Четыре защищённых файла не изменены."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 14,
+      "title": "Проверять упакованный релиз от имени пользователя сервиса.",
+      "status": "verified",
+      "evidence": [
+        "Установщик проверяет module graph от UID сервиса и HTTP health перед завершением активации."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 15,
+      "title": "Создать отдельный staging-runtime.",
+      "status": "verified",
+      "evidence": [
+        "Отдельный HTTPS localhost staging, отдельные UID, SQLite, token, mail capture и worker; production SMTP и auth недоступны staging worker."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 16,
+      "title": "Получить рабочую авторизацию Cloudflare.",
+      "status": "waiting",
+      "evidence": [
+        "Нужна действующая авторизация Cloudflare; предыдущий device code истёк. Новый код без участия владельца не создавался."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 17,
+      "title": "Проверить текущие DNS, TLS и владельцев маршрутов.",
+      "status": "waiting",
+      "evidence": [
+        "Локальная nginx/origin-конфигурация сохранена. Актуальные владельцы Cloudflare routes и версии требуют API-доступа."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 18,
+      "title": "Проверить связку Worker → nginx → Next.js на staging.",
+      "status": "waiting",
+      "evidence": [
+        "HTTPS staging → Next.js и отдельный worker проверены. Цепочка через staging Cloudflare Worker ещё не создана и не проверена."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 19,
+      "title": "Обеспечить доступность старых JS/CSS после переключения.",
+      "status": "implemented",
+      "evidence": [
+        "Все 19 legacy assets доступны на origin с совпадающими SHA-256. Проверка старой вкладки через переключённый публичный Worker остаётся."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 20,
+      "title": "Отрепетировать активацию и возврат релиза.",
+      "status": "verified",
+      "evidence": [
+        "На отдельном staging отрепетированы startup failure и HTTP 503; конфигурация возвращена без отката текущих баз."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 21,
+      "title": "Подтвердить учётную запись владельца.",
+      "status": "waiting",
+      "evidence": [
+        "Реальный административный grant владельца ожидает подтверждения email. Fixture-вход не активирует владельца."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 22,
+      "title": "Проверить реальную доставку письма входа.",
+      "status": "waiting",
+      "evidence": [
+        "Вход проверен через локальный перехватчик почты. Реальная доставка и штатный вход владельца ещё не подтверждены."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 23,
+      "title": "Проверить настройки почтового домена.",
+      "status": "waiting",
+      "evidence": [
+        "Нужна сверка почтового домена и заголовков реально доставленного письма; локальный mail capture это не доказывает."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 24,
+      "title": "Проверить жизненный цикл ссылки входа.",
+      "status": "verified",
+      "evidence": [
+        "Проверены срок, однократность, подтверждение ссылки и ошибки входа."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 25,
+      "title": "Проверить cookies сессии.",
+      "status": "implemented",
+      "evidence": [
+        "HttpOnly, Secure и SameSite проверены на локальном HTTPS staging; передачу cookies через Cloudflare ещё нужно проверить."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 26,
+      "title": "Проверить выход и отзыв прав.",
+      "status": "verified",
+      "evidence": [
+        "Выход, истечение сессии и отзыв административного grant покрыты auth/browser tests."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 27,
+      "title": "Проверить закрытие всех административных маршрутов.",
+      "status": "verified",
+      "evidence": [
+        "Анонимные admin API и страницы закрыты; служебный импорт не даёт человеческую сессию."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 28,
+      "title": "Проверить защиту административных записей от CSRF.",
+      "status": "verified",
+      "evidence": [
+        "Administrative writes требуют корректный Origin/session; auth tests проверяют отказ чужому Origin."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 29,
+      "title": "Проверить изоляцию служебного импорта.",
+      "status": "verified",
+      "evidence": [
+        "Staging worker не читает production auth, SMTP или staging auth DB; subprocess не наследует секретный runtime environment."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 30,
+      "title": "Проверить отказоустойчивость входа.",
+      "status": "verified",
+      "evidence": [
+        "Ошибки доставки, throttling и невалидные ссылки не показывают ложный успешный вход; проверено fixtures."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 31,
+      "title": "Перепроверить публикацию из админки в каталог.",
+      "status": "verified",
+      "evidence": [
+        "Публикация появляется в EN/RU каталоге без пересборки; проверено браузером и runtime tests."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 32,
+      "title": "Перепроверить редактирование и конкурирующие изменения.",
+      "status": "verified",
+      "evidence": [
+        "Optimistic revision check и обновление формы не позволяют тихо перезаписать чужие изменения."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 33,
+      "title": "Перепроверить архивирование.",
+      "status": "verified",
+      "evidence": [
+        "Архивирование исключает запись из публичного каталога, статусов и sitemap; прямой URL возвращает 404."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 34,
+      "title": "Сделать поиск и пагинацию пригодными для растущего каталога.",
+      "status": "verified",
+      "evidence": [
+        "SQL-поиск, фильтры и пагинация работают за пределами первых 100 записей; staging проверен на 2005 fixtures."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 35,
+      "title": "Проверить HTTP-статусы и состояние недоступности.",
+      "status": "verified",
+      "evidence": [
+        "404, HEAD, приватные ответы и сбой хранилища проверены runtime/API tests."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 36,
+      "title": "Показать проверяемое происхождение скилла.",
+      "status": "verified",
+      "evidence": [
+        "Карточка и очередь показывают repository, path, commit/run, package digest и тип доказательства; приватные actor IDs не публикуются."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 37,
+      "title": "Упорядочить категории и метки.",
+      "status": "verified",
+      "evidence": [
+        "Категории и поиск согласованы с EN/RU; неизвестные значения не ломают публичную проекцию."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 38,
+      "title": "Подключить коллекции к редакционной базе.",
+      "status": "verified",
+      "evidence": [
+        "Опубликованные коллекции используют редакционные данные и реальные ссылки на скиллы, обе локали проверены."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 39,
+      "title": "Подключить журнал и статьи к редакционной базе.",
+      "status": "verified",
+      "evidence": [
+        "Журнал и статьи подключены к CMS; архив и обновление работают без rebuild. Демо-контент обозначен."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 40,
+      "title": "Сделать sitemap, canonical и hreflang согласованными с публикациями.",
+      "status": "verified",
+      "evidence": [
+        "Динамические sitemap/canonical/hreflang согласованы с публикациями; разбиение больших sitemap проверено на 10001 records."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 41,
+      "title": "Сократить текст основных экранов.",
+      "status": "implemented",
+      "evidence": [
+        "Основные тексты сокращены; ясность задачи для нового пользователя ещё проверяется в пилоте."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 42,
+      "title": "Унифицировать читаемую типографику.",
+      "status": "verified",
+      "evidence": [
+        "Self-hosted DM Sans/Golos Text, общий wordmark и reduced-motion navigation проверены в браузерной матрице."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 43,
+      "title": "Упростить формы админки.",
+      "status": "implemented",
+      "evidence": [
+        "Формы показывают ошибки, revision conflict, сохранение и публикацию. Проверка новым внешним редактором ещё не проведена."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 44,
+      "title": "Проверить мобильный поиск и фильтры.",
+      "status": "verified",
+      "evidence": [
+        "Поиск, фильтры, сброс и границы viewport проверены мобильными браузерными сценариями."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 45,
+      "title": "Сохранить целостность локального кабинета.",
+      "status": "verified",
+      "evidence": [
+        "Saved IDs сохраняются при пагинации/ошибке API; отсутствующие карточки можно убрать отдельно. Хранилище остаётся локальным."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 46,
+      "title": "Проверить адаптивность всех обязательных страниц.",
+      "status": "verified",
+      "evidence": [
+        "Основные страницы проверены на mobile/tablet/desktop в 74 browser tests."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 47,
+      "title": "Проверить клавиатуру и доступность.",
+      "status": "verified",
+      "evidence": [
+        "Keyboard flow и axe WCAG 2A/AA/2.1AA проходят на пяти публичных страницах и authenticated intake."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 48,
+      "title": "Проверить состояния загрузки и действия пользователя.",
+      "status": "implemented",
+      "evidence": [
+        "Abort/stale guards, busy state, CAS и reduced motion реализованы. Отдельная проверка медленной сети новым редактором ещё остаётся."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 49,
+      "title": "Доработать пустые состояния и ошибки.",
+      "status": "implemented",
+      "evidence": [
+        "Loading, empty, retry, unavailable saved item, expired package и blocked candidate различаются. Полная редакционная проверка текстов ошибок остаётся."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 50,
+      "title": "Проверить скорость восприятия и загрузки.",
+      "status": "implemented",
+      "evidence": [
+        "Ограниченная нагрузка укладывается в цели; задачу поиска на слабом устройстве с внешним пользователем ещё нужно выполнить."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 51,
+      "title": "Проверить нормализацию GitHub-источников.",
+      "status": "verified",
+      "evidence": [
+        "Canonical repository URLs, case aliases, refs, query, foreign hosts и unsafe addresses покрыты тестами."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 52,
+      "title": "Перепроверить импорт репозиториев-сборников.",
+      "status": "verified",
+      "evidence": [
+        "Scanner обнаруживает вложенные SKILL.md как отдельные навыки; fixtures и bounded real source scans проверены."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 53,
+      "title": "Научить поиск читать ссылки из GitHub-подборок.",
+      "status": "verified",
+      "evidence": [
+        "Discovery читает ограниченную подборку VoltAgent, глубина 1, бюджеты ссылок/размера и дедупликация проверены."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 54,
+      "title": "Расширить поиск за пределы одного topic.",
+      "status": "implemented",
+      "evidence": [
+        "Три поисковых запроса, страницы и ротация реализованы; реальные источники без topic agent-skills должны быть выбраны по пункту 3."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 55,
+      "title": "Обрабатывать ограничения GitHub API.",
+      "status": "verified",
+      "evidence": [
+        "403/429/Retry-After сохраняются как cooldown; перезапуск не обходит ожидание."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 56,
+      "title": "Перепроверить очередь после аварийного завершения.",
+      "status": "verified",
+      "evidence": [
+        "Lease, payload и outbox переживают перезапуск. Реальная задача повторно завершена в восстановленной изолированной очереди без изменения production."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 57,
+      "title": "Закрепить строгий контракт отчёта сканера.",
+      "status": "verified",
+      "evidence": [
+        "Scanner JSON валидируется до сохранения; hidden fields, forged links, decisions и oversized input отвергаются."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 58,
+      "title": "Установить бюджеты импорта.",
+      "status": "verified",
+      "evidence": [
+        "Бюджеты страниц, репозиториев, jobs, archives/files и subprocess времени ограничены; оставшиеся payload сохраняются."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 59,
+      "title": "Сохранять происхождение каждой версии.",
+      "status": "verified",
+      "evidence": [
+        "Происхождение и хеши сохраняются с каждой версией; приватные reviewer/actor данные исключены из public JSON."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 60,
+      "title": "Обработать дубли и переименования.",
+      "status": "verified",
+      "evidence": [
+        "URL aliases сохраняют первый публичный ID; зеркало с совпадающим bundle требует редактора. Новый путь не переносит доверие; archived URL имеет 404."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 61,
+      "title": "Закрепить выбор Release.",
+      "status": "implemented",
+      "evidence": [
+        "Release tag/prerelease выбор и immutable job identity реализованы. Проверка нескольких релизов и перемещённого tag на выбранном реальном источнике ещё нужна."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 62,
+      "title": "Выбирать подходящие Release assets.",
+      "status": "implemented",
+      "evidence": [
+        "ZIP/.skill/tar.gz/tgz assets отбираются и сканируются; binaries без SKILL.md не публикуются. Настройку выбранных реальных пакетов ещё нужно сверить."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 63,
+      "title": "Перепроверить безопасную загрузку пакета.",
+      "status": "verified",
+      "evidence": [
+        "Размеры, timeout, HTTPS hosts, public-IP pinning, redirects и API-only credential transport проверены контролируемыми ответами."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 64,
+      "title": "Добавить `.skill` и tar.gz.",
+      "status": "implemented",
+      "evidence": [
+        "ZIP/.skill/tar.gz/tgz распознаются по содержимому; links, unsafe paths, bombs, checksum/trailing data блокируются. Пользовательские реальные образцы ещё нужны."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 65,
+      "title": "Настроить минимальный доступ к GitHub Actions.",
+      "status": "waiting",
+      "evidence": [
+        "Actions downloader поддерживает отдельный приватный credential. Реальный credential с минимальными правами не предоставлен и scopes не проверены."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 66,
+      "title": "Выбирать допустимые workflow runs.",
+      "status": "implemented",
+      "evidence": [
+        "Repo/workflow/success/fork/head SHA guards проверены fixtures; выбранный live workflow ещё не подключён."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 67,
+      "title": "Находить скиллы в Actions artifacts.",
+      "status": "implemented",
+      "evidence": [
+        "Artifacts, nested .skill, run/artifact identity и дедупликация проверены fixtures; live authenticated download ещё не проверен."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 68,
+      "title": "Обрабатывать истечение срока artifacts.",
+      "status": "implemented",
+      "evidence": [
+        "Expired/404/410 имеют terminal skipped state; signed URLs не сохраняются в каталог. Реальная истёкшая сборка ещё не проверена."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 69,
+      "title": "Проверять хеши готовых сборок.",
+      "status": "verified",
+      "evidence": [
+        "Локальный SHA-256, совпадение upstream digest, подмена и отсутствие digest покрыты Go/API tests; наличие commit не считается digest verification."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 70,
+      "title": "Разделить доказанный и заявленный commit сборки.",
+      "status": "verified",
+      "evidence": [
+        "Source commit отделён от заявленного Release/Actions commit; package commit не называется доказанной аттестацией."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 71,
+      "title": "Сделать очередь кандидатов доступной полностью.",
+      "status": "verified",
+      "evidence": [
+        "Серверные страницы, поиск, фильтры и counters очереди проверены на 32 кандидата (25+7)."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 72,
+      "title": "Показать причины проверки и блокировки.",
+      "status": "verified",
+      "evidence": [
+        "Detail показывает приватный ограниченный reviewText, file/line/risk и safe findings; обнаруженные секреты не публикуются."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 73,
+      "title": "Сделать проверку новой версии скилла.",
+      "status": "verified",
+      "evidence": [
+        "Показаны изменения metadata/provenance, revision/status текущей карточки и mirrors; editorial/archive conflict блокирует autopublish."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 74,
+      "title": "Сделать управление доверием источников.",
+      "status": "verified",
+      "evidence": [
+        "Source rights, allow_auto, workflow approval и actor audit сохраняются транзакционно; изменения policy проверены."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 75,
+      "title": "Зафиксировать режим генерации описаний.",
+      "status": "verified",
+      "evidence": [
+        "Первый релиз работает без LLM; исходные тексты не выдаются за переводы модели."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 76,
+      "title": "Проверить границы модельного адаптера, если он включён.",
+      "status": "verified",
+      "evidence": [
+        "Модельный адаптер выключен и явно отложен контрактом; расходы модели в текущем worker отсутствуют."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 77,
+      "title": "Перепроверить политику автопубликации.",
+      "status": "verified",
+      "evidence": [
+        "Матрица policy проверена: manual by default, rights/license/risk gates, конфликты и архив не обходятся."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 78,
+      "title": "Добавить управление расписанием и аварийную остановку.",
+      "status": "verified",
+      "evidence": [
+        "Пауза, интервал 6–168 ч, per-source autopublish и bounded manual run из UI реализованы; durable request, duplicate, cooldown и pause tests проходят.",
+        "Финальный staging: запрос из админки завершён worker, 3 repositories / 3 completed / 0 failed."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 79,
+      "title": "Показать журнал запусков и настроить значимые уведомления.",
+      "status": "implemented",
+      "evidence": [
+        "Runs, jobs, cooldown и существенные ошибки видны в админке/журнале. Получатель и реальная доставка аварийных уведомлений ещё не настроены."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 80,
+      "title": "Провести автономный прогон на staging.",
+      "status": "waiting",
+      "evidence": [
+        "Bounded real staging cycles выполнены; требуемый непрерывный 72-часовой прогон финального стенда ещё не завершён."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 81,
+      "title": "Прогнать обязательные пользовательские сценарии целиком.",
+      "status": "verified",
+      "evidence": [
+        "Локальные end-to-end покрывают вход, каталог, сохранения, коллекции и публикацию. Это не проверка цепочки Cloudflare."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 82,
+      "title": "Проверить EN/RU через staging Worker.",
+      "status": "waiting",
+      "evidence": [
+        "EN/RU проходят локально; staging Worker отсутствует, поэтому полная цепочка ещё не проверена."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 83,
+      "title": "Проверить выбранные пути авторизации и импорта на уязвимости.",
+      "status": "verified",
+      "evidence": [
+        "Semgrep выбранных путей и негативные auth/intake tests проходят. Это ограниченная проверка, а не заявление об отсутствии любых уязвимостей."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 84,
+      "title": "Прогнать набор опасных скиллов и архивов.",
+      "status": "verified",
+      "evidence": [
+        "Unsafe archive paths, links, oversized/duplicate entries, forged metadata, digest mismatch и небезопасные инструкции проверены fixtures."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 85,
+      "title": "Провести нагрузочную проверку.",
+      "status": "implemented",
+      "evidence": [
+        "20 параллельных читателей/120 запросов/2005 records: API p95 281 мс, HTML 328/320 мс, ошибок 0. Длительная совместная нагрузка с импортом ещё не завершена."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 86,
+      "title": "Настроить диагностические логи.",
+      "status": "verified",
+      "evidence": [
+        "Logs содержат request ID, class, status, latency и hash job ID; cookies, query, bearer и email в них не записываются."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 87,
+      "title": "Добавить проверки доступности и свежести.",
+      "status": "implemented",
+      "evidence": [
+        "Таймер monitor проверяет origin, DB, queue, import age, disk и полный backup; healthy state подтверждён. Доставка выбранного внешнего сигнала ещё нужна."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 88,
+      "title": "Проверить полный состав резервной копии.",
+      "status": "verified",
+      "evidence": [
+        "Online backup включает три SQLite, auth secret, runtime config, SMTP config и worker token; integrity и семь файлов проверены, старые копии сохранены."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 89,
+      "title": "Восстановить копию в изолированное окружение.",
+      "status": "verified",
+      "evidence": [
+        "Полная копия восстановлена отдельно. Replay одной restored queued задачи дал complete, production queue не изменена; SMTP не использовался."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 90,
+      "title": "Закрепить проверку релиза в CI и отчёте готовности.",
+      "status": "implemented",
+      "evidence": [
+        "Локальный make verify и CI workflow готовы; удалённый GitHub CI не запускался без commit/push. Cloudflare/почта/длительный прогон остаются gate выпуска."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 91,
+      "title": "Проверить финальную готовность выпуска.",
+      "status": "waiting",
+      "evidence": [
+        "Финальная готовность не подтверждена: обязательные внешние и длительные проверки не завершены."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 92,
+      "title": "Сохранить состояние перед переключением.",
+      "status": "waiting",
+      "evidence": [
+        "Backup и origin/unit/nginx snapshots сохранены. Актуальный snapshot версий/маршрутов Cloudflare требует авторизации."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 93,
+      "title": "Активировать или подтвердить целевой origin-релиз.",
+      "status": "verified",
+      "evidence": [
+        "Целевой origin-релиз активен; Next.js/API health, anon session, закрытый admin и old assets проверены."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 94,
+      "title": "Переключить существующий Cloudflare Worker на проверенную версию.",
+      "status": "waiting",
+      "evidence": [
+        "Runtime passthrough Worker подготовлен; публичный Worker не переключён без действующей Cloudflare-авторизации."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 95,
+      "title": "Пройти публичную проверку после переключения.",
+      "status": "waiting",
+      "evidence": [
+        "Публичная проверка после переключения не проводилась: переключения ещё не было."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 96,
+      "title": "Запустить ограниченный production-импорт.",
+      "status": "implemented",
+      "evidence": [
+        "Ограниченный real production cycle: 5 repos, 2 completed, 1 blocked, 0 failed. Публичная публикация выбранных разрешённых источников ждёт owner review и cutover."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 97,
+      "title": "Провести пилот с согласованными пользователями.",
+      "status": "waiting",
+      "evidence": [
+        "Нужны согласованные 3–5 внешних пользователей и результаты пилота."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 98,
+      "title": "Подготовить публичный контент и открытие.",
+      "status": "waiting",
+      "evidence": [
+        "Демо обозначено, CMS/SEO готовые. Финальный стартовый контент и права источников ещё должен проверить владелец."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 99,
+      "title": "Наблюдать первый период работы после открытия.",
+      "status": "waiting",
+      "evidence": [
+        "Семидневное наблюдение начинается после публичного открытия; сейчас оно не началось."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    },
+    {
+      "id": 100,
+      "title": "Зафиксировать статус «production готов».",
+      "status": "waiting",
+      "evidence": [
+        "Production-ready не заявляется до cutover, реального входа, проверки источников, пилота и наблюдения."
+      ],
+      "verificationReport": "docs/production-verification-2026-10-04.json"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "name": "reporadars-homepage",
+  "account_id": "0b933b4a04434e2d3b0cdb5ce2b6ec6d",
+  "main": "../../scripts/runtime-worker.mjs",
+  "compatibility_date": "2026-09-07",
+  "workers_dev": false,
+  "preview_urls": false
+}

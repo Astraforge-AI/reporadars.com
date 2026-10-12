@@ -132,24 +132,13 @@ test.describe("Reporadars homepage", () => {
       await page.goto("/");
       await page.evaluate(() => document.fonts.ready);
       const heading = page.getByRole("heading", {
-        name: /Only the signals worth giving your agent/i,
+        name: /The right skill for your next task/i,
       });
       await expect(heading).toBeVisible();
       const headingBox = await heading.boundingBox();
       expect(headingBox).not.toBeNull();
       expect(headingBox.x).toBeGreaterThanOrEqual(0);
       expect(headingBox.x + headingBox.width).toBeLessThanOrEqual(width);
-      const headlineLines = heading.locator(".headline-line");
-      await expect(headlineLines).toHaveCount(2);
-      for (let index = 0; index < 2; index += 1) {
-        const lineBox = await headlineLines.nth(index).boundingBox();
-        expect(
-          lineBox,
-          `headline line ${index + 1} at ${width}px`,
-        ).not.toBeNull();
-        expect(lineBox.x).toBeGreaterThanOrEqual(0);
-        expect(lineBox.x + lineBox.width).toBeLessThanOrEqual(width);
-      }
       await expectNoHorizontalOverflow(page);
 
       await page.goto("/?panel=about");
@@ -185,7 +174,7 @@ test.describe("Reporadars homepage", () => {
     ).toBe("none");
     await expect(
       await page
-        .locator(".command-button")
+        .locator(".primary-action")
         .evaluate((element) => getComputedStyle(element).transitionDuration),
     ).toBe("0s");
   });

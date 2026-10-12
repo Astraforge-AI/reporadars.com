@@ -1,6 +1,5 @@
 import { ArrowRightIcon } from "@phosphor-icons/react";
-import { journalEntries } from "../data/journal.js";
-import { getLocalizedSkills } from "../data/skills-ru.js";
+import { useCatalogSkills, useCatalogContent } from "../CatalogContext.jsx";
 import { articleIdsForSkill, skillIdsForArticle } from "../data/relations.js";
 import { useLocale } from "../i18n.jsx";
 import { SkillIcon } from "./CatalogUI.jsx";
@@ -16,9 +15,12 @@ function ConnectionLink({ href, children }) {
 
 export function RelatedReading({ skill }) {
   const { locale, t, link } = useLocale();
-  const articles = articleIdsForSkill(skill.id)
-    .map((id) => journalEntries.find((article) => article.id === id))
-    .filter(Boolean);
+  const { articles: journalEntries } = useCatalogContent();
+  const ids = articleIdsForSkill(skill.id);
+  const articles = journalEntries.filter(
+    (article) =>
+      ids.includes(article.id) || article.skillIds?.includes(skill.id),
+  );
 
   if (!articles.length) return null;
 
@@ -34,8 +36,8 @@ export function RelatedReading({ skill }) {
         </h2>
         <p>
           {t(
-            "Sample editorial notes that frame this draft; they are not release records.",
-            "Демонстрационные редакционные заметки, поясняющие этот черновик; это не записи о выпусках.",
+            "Articles about this skill. Sample notes are marked on their pages.",
+            "Материалы об этом скилле. Примеры отмечены на своих страницах.",
           )}
         </p>
       </div>
@@ -55,8 +57,8 @@ export function RelatedReading({ skill }) {
 
 export function RelatedSkills({ article }) {
   const { locale, t, link } = useLocale();
-  const skills = getLocalizedSkills(locale);
-  const relatedSkills = skillIdsForArticle(article.id)
+  const skills = useCatalogSkills();
+  const relatedSkills = (article.skillIds || skillIdsForArticle(article.id))
     .map((id) => skills.find((skill) => skill.id === id))
     .filter(Boolean);
 
@@ -70,12 +72,14 @@ export function RelatedSkills({ article }) {
       <div>
         <p className="page-connections-kicker">{t("Explore", "Исследуйте")}</p>
         <h2 id="related-skills-title">
-          {t("Related draft skills", "Связанные черновики навыков")}
+          {article.sample
+            ? t("Related draft skills", "Связанные черновики навыков")
+            : t("Related skills", "Связанные скиллы")}
         </h2>
         <p>
           {t(
-            "These original drafts are provided for inspection; check scope and permissions before use.",
-            "Эти оригинальные черновики доступны для изучения; перед использованием проверьте область и разрешения.",
+            "Review scope and permissions before using these skills.",
+            "Проверьте область работы и разрешения перед использованием скиллов.",
           )}
         </p>
       </div>

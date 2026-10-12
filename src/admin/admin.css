@@ -1,0 +1,312 @@
+.admin-shell {
+  background: var(--paper, #f7f6f0);
+  color: #062015;
+  min-height: 100vh;
+  overflow-x: clip;
+}
+.admin-main {
+  display: grid;
+  grid-template-columns: 13rem minmax(0, 1fr);
+  gap: 2rem;
+  max-width: 90rem;
+  margin: auto;
+  padding: 2rem 2.5rem 5rem;
+}
+.admin-sidebar {
+  border-right: 1px solid #9baa91;
+  padding-right: 1.25rem;
+}
+.admin-kicker {
+  font:
+    600 0.72rem/1.3 "IBM Plex Mono",
+    monospace;
+  letter-spacing: 0.08em;
+  text-transform: none;
+  margin: 0 0 0.7rem;
+}
+.admin-sidebar nav {
+  display: grid;
+  border-top: 1px solid #062015;
+}
+.admin-sidebar a {
+  border-bottom: 1px solid #9baa91;
+  color: inherit;
+  padding: 0.8rem 0;
+  text-decoration: none;
+}
+.admin-sidebar a[aria-current="page"] {
+  font-weight: 700;
+  color: #326047;
+}
+.admin-identity {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+}
+.admin-content {
+  min-width: 0;
+}
+.admin-title {
+  align-items: end;
+  border-bottom: 2px solid #062015;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+}
+.admin-title h1,
+.admin-section h2,
+.admin-editor h2 {
+  font-family: var(--display), sans-serif;
+  font-weight: 400;
+  font-size: clamp(2.25rem, 5vw, 4.5rem);
+  line-height: 0.9;
+  margin: 0;
+  text-transform: none;
+}
+.admin-content button,
+.admin-gate button {
+  background: #c6ee2b;
+  border: 1px solid #062015;
+  border-radius: 0;
+  color: #062015;
+  cursor: pointer;
+  font:
+    600 0.78rem "IBM Plex Mono",
+    monospace;
+  padding: 0.65rem 0.85rem;
+}
+.admin-content button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+.admin-content button:focus-visible,
+.admin-shell a:focus-visible,
+.admin-content input:focus-visible,
+.admin-content textarea:focus-visible,
+.admin-content select:focus-visible {
+  outline: 3px solid #062015;
+  outline-offset: 2px;
+}
+.admin-boundary,
+.admin-alert {
+  border-left: 4px solid #062015;
+  margin: 1.25rem 0;
+  padding: 0.75rem 1rem;
+}
+.admin-boundary {
+  background: #e9f2c8;
+}
+.admin-alert {
+  background: #f7d8cb;
+}
+.admin-section,
+.admin-editor {
+  padding: 1.5rem 0;
+}
+.admin-metrics {
+  border-top: 1px solid #062015;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.admin-metrics dl {
+  border-bottom: 1px solid #9baa91;
+  margin: 0;
+  padding: 1rem;
+}
+.admin-metrics dt {
+  font-size: 0.8rem;
+  text-transform: capitalize;
+}
+.admin-metrics dd {
+  font:
+    600 2.2rem/1 "Barlow Condensed",
+    "Golos Text",
+    sans-serif;
+  margin: 0.25rem 0 0;
+}
+.admin-toolbar,
+.admin-fields {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.admin-toolbar {
+  grid-template-columns: 2fr 1fr 1fr;
+}
+.admin-fields--two {
+  grid-template-columns: 1fr 1fr;
+}
+.admin-content label {
+  display: grid;
+  font:
+    600 0.75rem "IBM Plex Mono",
+    monospace;
+  gap: 0.4rem;
+}
+.admin-content input,
+.admin-content textarea,
+.admin-content select {
+  background: #fffef9;
+  border: 1px solid #062015;
+  border-radius: 0;
+  color: inherit;
+  font: inherit;
+  padding: 0.65rem;
+  width: 100%;
+}
+.admin-content textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+.admin-table {
+  border-top: 1px solid #062015;
+}
+.admin-table [role="row"] {
+  align-items: center;
+  border-bottom: 1px solid #9baa91;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr 8rem auto;
+  padding: 0.75rem 0;
+}
+.admin-table small {
+  display: block;
+  font:
+    normal 0.72rem "IBM Plex Mono",
+    monospace;
+  margin-top: 0.25rem;
+}
+.admin-pagination,
+.admin-actions,
+.admin-editor-heading {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+.admin-actions {
+  justify-content: flex-start;
+}
+.admin-link {
+  background: transparent !important;
+  border: 0 !important;
+  text-decoration: underline;
+}
+.admin-gate {
+  margin: 15vh auto;
+  max-width: 35rem;
+  padding: 2rem;
+}
+.admin-gate h1 {
+  font-family: var(--display), sans-serif;
+  font-weight: 400;
+  font-size: 3rem;
+  text-transform: none;
+}
+
+.admin-content input[type="checkbox"] {
+  width: auto;
+  accent-color: #244b3c;
+}
+.intake-panel form {
+  display: grid;
+  gap: 1rem;
+  margin-block: 1.5rem;
+}
+.intake-panel label {
+  font: inherit;
+  font-size: 0.9rem;
+}
+.intake-panel label:has(input[type="checkbox"]) {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.intake-panel form > button {
+  justify-self: start;
+}
+.intake-panel nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-block: 1rem;
+}
+.intake-panel aside {
+  padding: 1.25rem;
+  background: #eef1e4;
+  margin-block: 1.5rem;
+}
+.intake-panel aside p {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 700px) {
+  .admin-main {
+    display: block;
+    padding: 1rem;
+  }
+  .admin-sidebar {
+    border-right: 0;
+    padding: 0;
+  }
+  .admin-sidebar nav {
+    display: flex;
+    gap: 0.9rem;
+    overflow: auto;
+  }
+  .admin-sidebar a {
+    white-space: nowrap;
+  }
+  .admin-title {
+    align-items: start;
+    flex-direction: column;
+  }
+  .admin-metrics,
+  .admin-toolbar,
+  .admin-fields--two {
+    grid-template-columns: 1fr;
+  }
+  .admin-table [role="row"] {
+    grid-template-columns: 1fr auto;
+  }
+  .admin-table [role="cell"]:nth-child(2) {
+    display: none;
+  }
+  .admin-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .admin-content button {
+    min-height: 2.7rem;
+  }
+}
+
+.admin-table-wrap {
+  overflow-x: auto;
+}
+.admin-table-wrap table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 24px;
+}
+.admin-table-wrap th,
+.admin-table-wrap td {
+  text-align: left;
+  vertical-align: top;
+  padding: 16px 12px;
+  border-bottom: 1px solid var(--ink, #163c2b);
+}
+.admin-table-wrap small {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+}
+.admin-table-wrap td:first-child {
+  max-width: 340px;
+}
+.admin-table-wrap button {
+  margin: 4px;
+}

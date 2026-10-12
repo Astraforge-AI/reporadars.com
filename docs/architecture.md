@@ -2,14 +2,14 @@
 
 ## Purpose and boundary
 
-Reporadars is a static, bilingual editorial application. It presents a small registry of draft skills and their reference links; it is not a package registry, authentication service, or synchronization backend.
+Reporadars is a static, bilingual editorial application. It presents a small registry of draft skills and their reference links; it is not a package registry or synchronization backend. A separate, locally tested email authentication service is being developed in `server/`; it is not activated by the static website deployment. See [email authentication](email-auth.md) for its contract and security boundary.
 
 ## Application flow
 
 This flow describes the custom Cloudflare Worker artifact, not the separate Sites adapter.
 
 ```text
-content registry + React routes
+content registry + Next.js routes
             │
             ▼
 build-time static rendering ──► generated HTML/assets + Worker manifest
@@ -26,16 +26,18 @@ build-time static rendering ──► generated HTML/assets + Worker manifest
 
 ### Content registry and routes
 
-`src/data/skills.js` is the English skill registry; `src/data/skills-ru.js` carries its Russian presentation. Collections, journal samples, and explicit cross-links live beside them in `src/data/`. React routes render the library, collections, skill details, journal, account, and login-preview pages. Downloadable `SKILL.md` pages are generated from the original draft content.
+`src/data/skills.js` is the English skill registry; `src/data/skills-ru.js` carries its Russian presentation. Collections, journal samples, and explicit cross-links live beside them in `src/data/`. Next.js statically generated routes render the library, collections, skill details, journal, account, and login-preview pages. Downloadable `SKILL.md` pages are generated from the original draft content.
 
 Locale selection is URL-based: English uses unprefixed routes and Russian uses `/ru` equivalents. This permits direct loading, sharing, and navigation without storing the active locale in the workspace.
 
 ### Static rendering
 
-`npm run build` invokes Vite and the project rendering scripts, producing two distinct handoffs:
+Next.js Pages Router lives in `src/pages/`; screen components live in `src/views/`. `getStaticPaths` uses the bilingual content registry. Internal links use the Next.js router with the shared reduced-motion-safe transition. `scripts/next-export.mjs` adapts the generated HTML to the existing Sites directory layout. `npm run dev` runs a loopback-only Next.js server and retains the optional local authentication proxy.
 
-- **Custom Cloudflare Worker:** `scripts/homepage-build.mjs` prerenders pages and localized variants, then embeds the owned pages, assets, and downloads into `dist/reporadars.worker.mjs`. It also writes `dist/homepage-manifest.json` as a release inventory. `node scripts/homepage-preview.mjs` serves this Worker locally; it does not deploy anything.
-- **Sites adapter:** `scripts/prepare-sites-build.mjs` copies `worker/index.js` to `dist/server/index.js` and the hosting configuration to `dist/.openai/hosting.json`. This handoff uses the Vite output in `dist/client/` through the platform-provided `env.ASSETS` binding. It does not use the custom Worker's embedded route registry or origin fallback.
+`npm run build` invokes Next.js static export and the project packaging scripts, producing two distinct handoffs:
+
+- **Custom Cloudflare Worker:** Next.js prerenders pages and localized variants; `scripts/homepage-build.mjs` then embeds the owned pages, assets, and downloads into `dist/reporadars.worker.mjs`. It also writes `dist/homepage-manifest.json` as a release inventory. `node scripts/homepage-preview.mjs` serves this Worker locally; it does not deploy anything.
+- **Sites adapter:** `scripts/prepare-sites-build.mjs` copies `worker/index.js` to `dist/server/index.js` and the hosting configuration to `dist/.openai/hosting.json`. This handoff uses the Next.js export in `dist/client/` through the platform-provided `env.ASSETS` binding. It does not use the custom Worker's embedded route registry or origin fallback.
 
 Choose the handoff for the intended host explicitly; these artifacts do not have equivalent routing semantics.
 
@@ -47,7 +49,7 @@ The **Sites adapter**, implemented in `worker/index.js` and copied to `dist/serv
 
 ### Browser workspace
 
-Saved skills and profile edits are stored only in the current browser under the `reporadars.workspace.v1` localStorage key. No account, cookie-backed session, server-side profile, or cloud synchronization is implemented. The login page therefore communicates provider unavailability rather than simulating a successful sign-in.
+Saved skills and profile edits are stored only in the current browser under the `reporadars.workspace.v1` localStorage key. The separate email-auth development service uses verified email identities and HttpOnly cookie-backed sessions, but does not upload or relabel this local workspace. Server-side profiles and cloud synchronization are not implemented. Without an explicitly configured backend, the login page does not simulate successful authentication or email delivery.
 
 ## Operational constraints
 

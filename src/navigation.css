@@ -5,8 +5,11 @@
   --mono: "IBM Plex Mono", monospace;
 }
 :is(.page-shell, .editorial-page) .unified-header {
+  --header-inset: 2.02vw;
+  --editorial-inset: 3.6vw;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-rows: auto;
   grid-template-areas: "nav logo actions";
   position: relative;
   z-index: 20;
@@ -16,9 +19,23 @@
   border-bottom: 1px solid var(--rule);
   align-items: center;
 }
+.editorial-page > .unified-header {
+  margin-inline: calc(var(--header-inset) - var(--editorial-inset));
+}
 .unified-header > .wordmark {
   grid-area: logo;
   margin: 0;
+  display: flex;
+  align-items: center;
+  width: 184px;
+  height: 64px;
+  color: var(--ink);
+  text-decoration: none;
+}
+.wordmark > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 .unified-header .unified-primary-nav {
   grid-area: nav;
@@ -139,15 +156,6 @@
   font-size: 12px;
   line-height: 1.5;
 }
-:is(.page-shell, .editorial-page) .unified-header--editorial {
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  grid-template-areas: "logo nav actions";
-  height: 112px;
-  gap: 52px;
-}
-.unified-header--editorial .wordmark {
-  font-size: 64px;
-}
 .unified-footer {
   display: flex;
   align-items: center;
@@ -232,6 +240,7 @@
   :is(.page-shell, .editorial-page) .unified-header {
     height: 140px;
     grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: minmax(64px, 1fr) 44px;
     grid-template-areas: "logo actions" "nav nav";
     gap: 0 24px;
     padding-bottom: 8px;
@@ -242,18 +251,29 @@
   }
   .unified-header > .wordmark {
     justify-self: start;
-    font-size: 64px;
+  }
+}
+@media (max-width: 1000px) {
+  :is(.page-shell, .editorial-page) .unified-header {
+    --header-inset: 24px;
+  }
+}
+@media (max-width: 900px) {
+  :is(.page-shell, .editorial-page) .unified-header {
+    --editorial-inset: 22px;
   }
 }
 @media (max-width: 650px) {
   :is(.page-shell, .editorial-page) .unified-header {
+    --header-inset: 20px;
     height: auto;
     min-height: 157px;
     gap: 0 8px;
     padding: 10px 0;
   }
   .unified-header > .wordmark {
-    font-size: 48px;
+    width: 142px;
+    height: 50px;
   }
   .unified-header > .header-actions {
     gap: 6px;

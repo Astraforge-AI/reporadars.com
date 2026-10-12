@@ -13,7 +13,7 @@ export const emptyWorkspace = {
 const text = (value, fallback, max) =>
   typeof value === "string" ? value.trim().slice(0, max) || fallback : fallback;
 
-export function normalizeWorkspace(value, allowedIds) {
+export function normalizeWorkspace(value, allowedIds, preserveUnknown = false) {
   if (!value || typeof value !== "object" || value.version !== 1)
     return structuredClone(emptyWorkspace);
   const p =
@@ -31,19 +31,28 @@ export function normalizeWorkspace(value, allowedIds) {
       ...new Set(
         Array.isArray(value.savedIds)
           ? value.savedIds.filter(
-              (id) => typeof id === "string" && allowed.has(id),
+              (id) =>
+                typeof id === "string" &&
+                (allowed.has(id) ||
+                  (preserveUnknown &&
+                    id.length <= 120 &&
+                    /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id))),
             )
           : [],
       ),
-    ].slice(0, allowed.size),
+    ].slice(0, preserveUnknown ? 2500 : allowed.size),
   };
 }
 
-export function readWorkspace(storage, allowedIds) {
+export function readWorkspace(storage, allowedIds, preserveUnknown = false) {
   try {
     const raw = storage.getItem(WORKSPACE_KEY);
     return {
-      value: normalizeWorkspace(raw ? JSON.parse(raw) : null, allowedIds),
+      value: normalizeWorkspace(
+        raw ? JSON.parse(raw) : null,
+        allowedIds,
+        preserveUnknown,
+      ),
       error: null,
     };
   } catch {
@@ -55,8 +64,13 @@ export function readWorkspace(storage, allowedIds) {
   }
 }
 
-export function writeWorkspace(storage, value, allowedIds) {
-  const normalized = normalizeWorkspace(value, allowedIds);
+export function writeWorkspace(
+  storage,
+  value,
+  allowedIds,
+  preserveUnknown = false,
+) {
+  const normalized = normalizeWorkspace(value, allowedIds, preserveUnknown);
   try {
     storage.setItem(WORKSPACE_KEY, JSON.stringify(normalized));
     return { value: normalized, error: null };

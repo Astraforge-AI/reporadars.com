@@ -1,0 +1,102 @@
+{
+  "version": 1,
+  "sourceSha256": "40d5dd95d444487694144c63e614c8724b9aa699b13c0a4f4dcd3aa1203abf80",
+  "files": {
+    "/reporadars-assets/bundled/barlow-condensed-latin-400-normal-Dc2u_eUW.woff2": {
+      "sha256": "7fff1bb22e5773f0d1a55d3093068b6dac4539e8bb3ac23fb9f0a729df2c7bb4",
+      "bytes": 21164,
+      "type": "font/woff2"
+    },
+    "/reporadars-assets/bundled/dm-sans-latin-400-normal-CW0RaeGs.woff2": {
+      "sha256": "4ab51eb2cd7305d177187908d6397474d4520663f6c6e572feb0a64f4fa80006",
+      "bytes": 14200,
+      "type": "font/woff2"
+    },
+    "/reporadars-assets/bundled/dm-sans-latin-600-normal-Aqo67rzb.woff2": {
+      "sha256": "6bb2b2645ba5eeaecf56322c543fa3a75b87b927977b9c03b1dabc4205089120",
+      "bytes": 14144,
+      "type": "font/woff2"
+    },
+    "/reporadars-assets/bundled/golos-text-cyrillic-400-normal-C7us6pn1.woff2": {
+      "sha256": "15a5cbadfc1aa7a541651600b757bf7b67bce4e145b3239de072db5427889605",
+      "bytes": 6960,
+      "type": "font/woff2"
+    },
+    "/reporadars-assets/bundled/golos-text-cyrillic-600-normal-lpQ9rVRR.woff2": {
+      "sha256": "1df9c46f33069094b4769bd2f5f04c5c37e4ce74c77bf062f3bb476d93cc3c2b",
+      "bytes": 7140,
+      "type": "font/woff2"
+    },
+    "/reporadars-assets/bundled/ibm-plex-mono-cyrillic-400-normal-BSMlKf0J.woff2": {
+      "sha256": "7635422bd10ddbbcb0e0caa1154b928298f5c8319b8c00b30978d4395f4783ce",
+      "bytes": 8356,
+      "type": "font/woff2"
+    },
+    "/reporadars-assets/bundled/ibm-plex-mono-latin-400-normal-DMJ8VG8y.woff2": {
+      "sha256": "08949f728dc52d528e69b1667d15c89a5686a4ee9a296ff90983985f99c380f7",
+      "bytes": 14708,
+      "type": "font/woff2"
+    },
+    "/reporadars-assets/bundled/index-DWu1es3g.css": {
+      "sha256": "9284c10e791f8ff9f37950eda24ba7dbc461c74641111ffdac7e13c5faf5c01b",
+      "bytes": 73689,
+      "type": "text/css; charset=utf-8"
+    },
+    "/reporadars-assets/bundled/index-DaY47OD4.js": {
+      "sha256": "3aac1c01d44aa091a8d4603cb6c6da9d7ae484165e379297ff73fd21d4a16ad1",
+      "bytes": 445417,
+      "type": "text/javascript; charset=utf-8"
+    },
+    "/reporadars-assets/bundled/six-caps-latin-400-normal-DIhORknL.woff2": {
+      "sha256": "87c40d86d1c95a6f7c890c1d838d9cf03ae535415962529b331ed963c35af36a",
+      "bytes": 14376,
+      "type": "font/woff2"
+    },
+    "/reporadars-assets/bundled/yanone-kaffeesatz-cyrillic-600-normal-Dq7vr_6N.woff2": {
+      "sha256": "a88fcf185e9504c880671a52b967e29f63464805d33fc53b22abf34a1eb0ebc1",
+      "bytes": 9936,
+      "type": "font/woff2"
+    },
+    "/reporadars-assets/bundled/yanone-kaffeesatz-latin-600-normal-uicEe5NK.woff2": {
+      "sha256": "f73abab3339cebc7e114bf711c9e2890a77d6359d20bd0b1d3da95e023f63cf1",
+      "bytes": 15176,
+      "type": "font/woff2"
+    },
+    "/reporadars-assets/curator-portrait.webp": {
+      "sha256": "355468bab2f948e1ef39ef3372a1f81c42b4d2b69209420de2b9eb6678bde294",
+      "bytes": 33722,
+      "type": "image/webp"
+    },
+    "/reporadars-assets/favicon.svg": {
+      "sha256": "9ee190d92fd9d08c67db78833b0c769719e5a215b8e9d55954dfb40081b4ed1b",
+      "bytes": 114,
+      "type": "image/svg+xml",
+      "sharedCurrent": true
+    },
+    "/reporadars-assets/paper-texture.webp": {
+      "sha256": "b33519a7f12716a2bd130ead85e370a023fb1a82bf88443c926fbb7a9966bc3c",
+      "bytes": 1092,
+      "type": "image/webp"
+    },
+    "/reporadars-assets/radar-crosshair.webp": {
+      "sha256": "8049fcd8fb395bdbb016da60276ccc9f135d6867a4adb9e9f6b29422689f7c34",
+      "bytes": 105096,
+      "type": "image/webp"
+    },
+    "/reporadars-assets/radar-orbit.webp": {
+      "sha256": "9bec04e5a2c45f2af72eb0d4e67ecf7410feddc198b0c4ce8114c47d59377acc",
+      "bytes": 53088,
+      "type": "image/webp"
+    },
+    "/reporadars-assets/radar-paper.webp": {
+      "sha256": "64b78956d6e0c22ba9723857d3c568f8c7fb867267ac06158c0c6ac3fd579eb6",
+      "bytes": 82242,
+      "type": "image/webp"
+    },
+    "/reporadars-assets/radar-trace.webp": {
+      "sha256": "abf1ed5b72ccdb726a8123fca73b78fa99d4ddf05f9432c328e33212b2f063c3",
+      "bytes": 50658,
+      "type": "image/webp"
+    }
+  }
+}

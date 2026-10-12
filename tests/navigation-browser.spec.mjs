@@ -105,6 +105,90 @@ async function expectNoHorizontalOverflow(page) {
 }
 
 test.describe("unified navigation", () => {
+  test("renders the brand before web fonts load without shifting afterward", async ({
+    page,
+  }) => {
+    let releaseFonts;
+    const fontsReady = new Promise((resolve) => {
+      releaseFonts = resolve;
+    });
+    await page.route("**/*.woff2", async (route) => {
+      await fontsReady;
+      await route.continue();
+    });
+    try {
+      await page.goto("/", { waitUntil: "domcontentloaded" });
+      const logo = header(page).getByRole("link", {
+        name: "Reporadars home",
+        exact: true,
+      });
+      await expect(logo.locator("svg")).toBeVisible();
+      const before = await logo.boundingBox();
+      releaseFonts();
+      await page.evaluate(() => document.fonts.ready);
+      expect(await logo.boundingBox()).toEqual(before);
+      await logo.focus();
+      await expect(logo).toBeFocused();
+    } finally {
+      releaseFonts();
+    }
+  });
+
+  for (const locale of ["en", "ru"]) {
+    for (const width of [320, 768, 1024, 1440]) {
+      test(`${locale} keeps the logo unchanged through Journal navigation at ${width}px`, async ({
+        page,
+      }) => {
+        await page.setViewportSize({ width, height: 1058 });
+        await page.goto(localPath(locale, "/"));
+        await page.evaluate(() => document.fonts.ready);
+        const logo = header(page).getByRole("link", {
+          name: locale === "ru" ? "Главная Reporadars" : "Reporadars home",
+          exact: true,
+        });
+        const initial = await logo.boundingBox();
+        const initialHeader = await header(page).boundingBox();
+        const expectStableLogo = async () => {
+          await expect(logo).toBeVisible();
+          const current = await logo.boundingBox();
+          for (const property of ["x", "y", "width", "height"]) {
+            expect(
+              Math.abs(current[property] - initial[property]),
+              property,
+            ).toBeLessThan(1);
+          }
+          expect((await header(page).boundingBox()).height).toBe(
+            initialHeader.height,
+          );
+          await expectNoHorizontalOverflow(page);
+        };
+
+        await header(page)
+          .getByRole("link", { name: copy[locale].journal, exact: true })
+          .click();
+        await expect(page).toHaveURL(
+          new RegExp(`${localPath(locale, "/journal")}$`),
+        );
+        await expectStableLogo();
+        await page
+          .locator(`a[href^="${localPath(locale, "/journal/")}"]`)
+          .first()
+          .click();
+        await expectStableLogo();
+        await logo.click();
+        await expect(page).toHaveURL(
+          new RegExp(`${localPath(locale, "/")}/?$`),
+        );
+        await expectStableLogo();
+
+        for (const path of ["/skills", "/collections", "/account", "/login"]) {
+          await page.goto(localPath(locale, path));
+          await expectStableLogo();
+        }
+      });
+    }
+  }
+
   test("keeps collection navigation, browser history, and native modified links coherent", async ({
     page,
     context,

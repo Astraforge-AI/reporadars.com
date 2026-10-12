@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowRightIcon,
@@ -11,7 +12,12 @@ import {
   ChartLineIcon,
 } from "@phosphor-icons/react";
 import { resolvePage } from "./data/skills.js";
-import { getLocalizedSkills } from "./data/skills-ru.js";
+import { AdminPage } from "./admin/AdminPage.jsx";
+import {
+  CatalogProvider,
+  useCatalogSkills,
+  useCatalogContent,
+} from "./CatalogContext.jsx";
 import { LocaleProvider, useLocale } from "./i18n.jsx";
 import { homeCopy } from "./home-copy.js";
 import {
@@ -19,11 +25,11 @@ import {
   NotFoundPage,
   JournalPage,
   ArticlePage,
-} from "./pages/EditorialPages.jsx";
-import { LibraryPage } from "./pages/LibraryPage.jsx";
-import { SkillPage } from "./pages/SkillPage.jsx";
-import { AccountPage } from "./pages/AccountPage.jsx";
-import { CollectionsPage } from "./pages/CollectionsPage.jsx";
+} from "./views/EditorialPages.jsx";
+import { LibraryPage } from "./views/LibraryPage.jsx";
+import { SkillPage } from "./views/SkillPage.jsx";
+import { AccountPage } from "./views/AccountPage.jsx";
+import { CollectionsPage } from "./views/CollectionsPage.jsx";
 import { WorkspaceProvider, useWorkspaceContext } from "./WorkspaceContext.jsx";
 import { SiteHeader, SiteFooter } from "./components/SiteChrome.jsx";
 
@@ -85,7 +91,7 @@ function SignalCard({ signal }) {
         <span>{signal.number}</span>
         <span className="curated">
           <CheckIcon size={15} weight="light" aria-hidden="true" />{" "}
-          {t("Curated")}
+          {locale === "ru" ? "Черновик" : "Draft"}
         </span>
       </div>
       <h2 className="card-heading">
@@ -94,11 +100,7 @@ function SignalCard({ signal }) {
           href={link(`/skills/${signal.id}`)}
           aria-label={`${t("View")} ${signal.title}`}
         >
-          <span className="card-title">
-            {signal.lines.map((line) => (
-              <span key={line}>{line}</span>
-            ))}
-          </span>
+          <span className="card-title">{signal.title}</span>
         </a>
       </h2>
       <p className="card-description">{signal.summary}</p>
@@ -128,18 +130,102 @@ function SignalCard({ signal }) {
 
 export function App({
   path = typeof window === "undefined" ? "/" : window.location.pathname,
+  catalog = null,
 }) {
+  usePageTransitions();
   return (
     <LocaleProvider path={path}>
-      <WorkspaceProvider>
-        <AppContent path={path} />
-      </WorkspaceProvider>
+      <CatalogProvider catalog={catalog}>
+        <WorkspaceProvider>
+          <AppContent path={path} />
+        </WorkspaceProvider>
+      </CatalogProvider>
     </LocaleProvider>
   );
 }
 
+function usePageTransitions() {
+  const router = useRouter();
+  useEffect(() => {
+    const root = document.getElementById("root");
+    const reset = () => {
+      delete document.documentElement.dataset.pageTransition;
+      root?.removeAttribute("aria-busy");
+    };
+    const navigate = (event) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      )
+        return;
+
+      const anchor = event.target.closest?.("a[href]");
+      if (
+        !anchor ||
+        anchor.hasAttribute("download") ||
+        (anchor.target && anchor.target !== "_self")
+      )
+        return;
+
+      const destination = new URL(anchor.href, window.location.href);
+      const current = new URL(window.location.href);
+      if (
+        destination.origin !== current.origin ||
+        (destination.pathname === current.pathname &&
+          destination.search === current.search)
+      )
+        return;
+
+      event.preventDefault();
+      const visit = () => {
+        router
+          .push(destination.pathname + destination.search + destination.hash)
+          .then(() => {
+            reset();
+            window.dispatchEvent(new Event("reporadars:navigation"));
+            if (!destination.hash) {
+              const main = document.getElementById("main");
+              main?.setAttribute("tabindex", "-1");
+              main?.focus({ preventScroll: true });
+            }
+          })
+          .catch(reset);
+      };
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        visit();
+        return;
+      }
+
+      document.documentElement.dataset.pageTransition = "leaving";
+      root?.setAttribute("aria-busy", "true");
+      window.setTimeout(visit, 180);
+    };
+
+    reset();
+    router.events.on("routeChangeComplete", reset);
+    router.events.on("routeChangeError", reset);
+    document.addEventListener("click", navigate);
+    window.addEventListener("pageshow", reset);
+    return () => {
+      router.events.off("routeChangeComplete", reset);
+      router.events.off("routeChangeError", reset);
+      document.removeEventListener("click", navigate);
+      window.removeEventListener("pageshow", reset);
+    };
+  }, [router]);
+}
+
 function AppContent({ path }) {
-  const page = resolvePage(path);
+  const page = resolvePage(
+    path,
+    useCatalogSkills(),
+    useCatalogContent().articles,
+  );
+  if (page.type === "admin") return <AdminPage />;
   if (page.type === "home") return <HomePage />;
   if (page.type === "login") return <LoginPage />;
   if (page.type === "journal") return <JournalPage />;
@@ -151,7 +237,7 @@ function AppContent({ path }) {
 function CatalogApp({ page }) {
   const store = useWorkspaceContext();
   const { locale, t, link } = useLocale();
-  const skills = getLocalizedSkills(locale);
+  const skills = useCatalogSkills();
   const skill = page.skill && skills.find((s) => s.id === page.skill.id);
   return (
     <>
@@ -273,14 +359,8 @@ function HomePage() {
     const move = (e) => {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
-        artwork.current?.style.setProperty(
-          "--pointer-x",
-          `${(e.clientX / window.innerWidth - 0.5) * 8}px`,
-        );
-        artwork.current?.style.setProperty(
-          "--pointer-y",
-          `${(e.clientY / window.innerHeight - 0.5) * 5}px`,
-        );
+        if (artwork.current)
+          artwork.current.style.transform = `translate(${(e.clientX / window.innerWidth - 0.5) * 8}px, ${(e.clientY / window.innerHeight - 0.5) * 5}px)`;
       });
     };
     window.addEventListener("pointermove", move, { passive: true });
@@ -328,60 +408,48 @@ function HomePage() {
                 alt=""
                 fetchPriority="high"
               />
-              <div className="art-caption">
-                <p>
-                  {t("A world of sources.")}
-                  <br />
-                  {t("One signal at a time.")}
-                </p>
-                <span />
-              </div>
             </div>
             <div className="hero-editorial">
               <p className="eyebrow">
-                {t("Curated")} <span>&gt;</span> {t("Vetted")} <span>&gt;</span>{" "}
-                {t("Useful")}
+                {locale === "ru"
+                  ? "Каталог скиллов для ИИ"
+                  : "A library of AI skills"}
               </p>
               <h1 id="hero-title">
-                <span className="headline-line">{t("Only the signals")}</span>
-                <span className="headline-line second-line">
-                  {t("worth giving your agent")}
-                  <span className="headline-period">.</span>
-                </span>
+                {locale === "ru"
+                  ? "Нужный скилл для вашей задачи"
+                  : "The right skill for your next task"}
               </h1>
-              <div className="hero-bottom">
-                <div className="manifesto">
-                  <h2>
-                    {t("We scan the noise.")}
-                    <br />
-                    {t("You get the signal.")}
-                  </h2>
-                  <p>
-                    {t(
-                      "Reporadars is a growing radar for AI skills that matter. Explore original sources while we prepare a carefully reviewed, installable catalog.",
-                    )}
-                  </p>
-                </div>
-                <div className="install">
-                  <span className="install-label">{t("Install a signal")}</span>
-                  <button
-                    className="command-button"
-                    onClick={() => open("install")}
-                    aria-label={t(
-                      "Learn about the Reporadars installation command",
-                    )}
-                  >
-                    <code>npx reporadars add seo-audit</code>
-                    <span className="command-arrow">
-                      <Arrow size={29} />
-                    </span>
-                  </button>
-                  <p className="install-caption">
-                    {t("One command, in your workflow.")}
-                    <span className="launch-note">{t("CLI coming soon")}</span>
-                  </p>
-                </div>
+              <p className="hero-lede">
+                {locale === "ru"
+                  ? "Инструкции для ИИ-агентов с открытыми источниками. Находите полезное и сохраняйте в своём кабинете."
+                  : "Instructions for AI agents, with sources you can check. Find something useful and save it to your workspace."}
+              </p>
+              <div className="hero-actions">
+                <a className="primary-action" href={link("/skills")}>
+                  {locale === "ru" ? "Открыть каталог" : "Explore the catalog"}{" "}
+                  <Arrow size={20} />
+                </a>
+                <a className="secondary-action" href={link("/collections")}>
+                  {locale === "ru"
+                    ? "Посмотреть коллекции"
+                    : "Browse collections"}{" "}
+                  <Arrow size={18} />
+                </a>
               </div>
+              <p className="hero-status">
+                {locale === "ru"
+                  ? "Инструкции доступны как черновики."
+                  : "Instructions are available as drafts."}{" "}
+                <button
+                  onClick={() => open("install")}
+                  aria-label={t(
+                    "Learn about the Reporadars installation command",
+                  )}
+                >
+                  {t("CLI coming soon")}
+                </button>
+              </p>
             </div>
           </section>
           <section
@@ -390,18 +458,18 @@ function HomePage() {
             aria-label={t("Latest curated signals")}
           >
             <div className="signals-intro">
-              <h2>
-                {t("Latest")}
-                <br />
-                {t("curated signals")}
-              </h2>
-              <p>
-                {t("From the community.")}
-                <br />
-                {t("For the community.")}
-              </p>
+              <div>
+                <h2>
+                  {locale === "ru" ? "С чего начать" : "A few places to start"}
+                </h2>
+                <p>
+                  {locale === "ru"
+                    ? "Три задачи — три полезных скилла."
+                    : "Three useful skills for everyday work."}
+                </p>
+              </div>
               <a className="text-link" href={link("/skills")}>
-                {t("View all signals")} <Arrow size={22} />
+                {t("View all signals")} <Arrow size={20} />
               </a>
             </div>
             {localizedSignals.map((signal) => (
@@ -540,7 +608,7 @@ function HomePage() {
             </p>
             <ol className="standards">
               <li>
-                <span>01 / {t("Curated")}</span>
+                <span>01 / {locale === "ru" ? "Черновик" : "Draft"}</span>
                 <p>
                   {t(
                     "Start with a real task. Select material with a clear source and practical value.",

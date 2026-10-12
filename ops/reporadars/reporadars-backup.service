@@ -1,0 +1,15 @@
+[Unit]
+Description=Consistent private backup of Reporadars authentication and editorial data
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/opt/reporadars/current
+UMask=0077
+ExecStart=/usr/bin/node ops/reporadars/backup.mjs
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/backups/reporadars
+RestrictAddressFamilies=AF_UNIX

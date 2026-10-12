@@ -8,6 +8,7 @@ import {
 import { LanguageSwitch, useLocale } from "../i18n.jsx";
 import { splitLocalePath } from "../locale-paths.js";
 import { useWorkspaceContext } from "../WorkspaceContext.jsx";
+import { Wordmark } from "./Wordmark.jsx";
 
 function useDestinations() {
   const { t } = useLocale();
@@ -100,7 +101,7 @@ function WorkspaceMenu() {
   );
 }
 
-export function SiteHeader({ layout = "centered" }) {
+export function SiteHeader() {
   const { path, t, link } = useLocale();
   const { path: pathname } = splitLocalePath(path);
   const destinations = useDestinations();
@@ -109,15 +110,13 @@ export function SiteHeader({ layout = "centered" }) {
       <a href="#main" className="skip-link">
         {t("Skip to content", "Перейти к содержимому")}
       </a>
-      <header
-        className={`${layout === "editorial" ? "editorial-header unified-header--editorial" : "site-header"} unified-header`}
-      >
+      <header className="site-header unified-header">
         <a
           className="wordmark"
           href={link("/")}
           aria-label={t("Reporadars home", "Главная Reporadars")}
         >
-          reporadars
+          <Wordmark />
         </a>
         <nav
           className="unified-primary-nav"

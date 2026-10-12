@@ -59,25 +59,6 @@ export function LanguageSwitch() {
           hrefLang={lang}
           lang={lang}
           aria-current={locale === lang ? "true" : undefined}
-          onClick={(event) => {
-            if (
-              event.metaKey ||
-              event.ctrlKey ||
-              event.shiftKey ||
-              event.altKey ||
-              event.button !== 0
-            )
-              return;
-            event.preventDefault();
-            window.location.assign(
-              localeHref(
-                window.location.pathname +
-                  window.location.search +
-                  window.location.hash,
-                lang,
-              ),
-            );
-          }}
         >
           {lang.toUpperCase()}
         </a>

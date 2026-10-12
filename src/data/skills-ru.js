@@ -1,4 +1,5 @@
 import { skills } from "./skills.js";
+import { importedCatalog, convertEntries } from "./imported-skills.js";
 
 const ru = {
   "seo-audit": {
@@ -318,13 +319,14 @@ const localizedChangelog = [
 
 export function getLocalizedSkills(locale) {
   if (locale !== "ru") return skills;
-  return skills.map((skill) => ({
+  const localizedDrafts = skills.filter((skill) => !skill.imported).map((skill) => ({
     ...skill,
     ...ru[skill.id],
     readme: localizedReadme,
     changelog: localizedChangelog,
     searchTerms: `${skill.id} ${skill.title} ${skill.summary} ${skill.source} ${skill.agents.join(" ")}`,
   }));
+  return [...localizedDrafts, ...convertEntries(importedCatalog, { locale: "ru" })];
 }
 
 export function getLocalizedSkill(id, locale) {

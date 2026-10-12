@@ -1,0 +1,316 @@
+{
+  "verifiedAt": "2026-10-04T18:25:35.203758+00:00",
+  "productionReady": false,
+  "publicCutover": false,
+  "origin": {
+    "release": "/opt/reporadars/releases/20261004-production-intake-v14",
+    "previous": "/opt/reporadars/releases/20261004-production-intake-v13",
+    "operation": "/opt/reporadars/operations/20261004-production-intake-v14",
+    "activatedAt": "2026-10-04T18:22:05.409745+00:00",
+    "scannerSha256": "9242fb20ee1b5566ff81f2cdaeede54a934945bd9fbd1c0362b2dcf39d1fa857",
+    "manifestSha256": "ba459e7c1f6e9883ac1fcaf225aa36fdbf0854ab893ece2b95ae16c5b97a8db4",
+    "cloudflare": "pending",
+    "timer": "active"
+  },
+  "staging": {
+    "release": "/opt/reporadars-staging/releases/20261004-production-phase11",
+    "runtime": "/var/lib/reporadars-staging/20261004-production-phase11",
+    "origin": "https://localhost:4443",
+    "health": "ok",
+    "mail": "private local capture"
+  },
+  "checks": {
+    "makeVerify": {
+      "passed": true,
+      "nodeTests": 89,
+      "browserTests": 74,
+      "sitesTestsIncluded": 4,
+      "pythonTests": 2,
+      "go": [
+        "race ./... passed",
+        "vet ./... passed"
+      ],
+      "staticAndRuntimeBuilds": true
+    },
+    "isolatedReleaseRebuild": {
+      "nextRuntime": true,
+      "goBinarySha256": "9242fb20ee1b5566ff81f2cdaeede54a934945bd9fbd1c0362b2dcf39d1fa857",
+      "byteIdenticalGoBinary": true,
+      "byteIdenticalNextBundleNotClaimed": true
+    },
+    "npmAudit": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "semgrep": [
+      {
+        "scope": "release",
+        "findings": 0,
+        "errors": 0,
+        "files": 5
+      },
+      {
+        "scope": "final",
+        "findings": 0,
+        "errors": 0,
+        "files": 5
+      },
+      {
+        "scope": "manual",
+        "findings": 0,
+        "errors": 0,
+        "files": 3
+      },
+      {
+        "scope": "rate",
+        "findings": 0,
+        "errors": 0,
+        "files": 2
+      },
+      {
+        "scope": "head",
+        "findings": 0,
+        "errors": 0,
+        "files": 1
+      }
+    ],
+    "reactDoctor": {
+      "errorCount": 0,
+      "warningCount": 175,
+      "affectedFileCount": 47,
+      "totalDiagnosticCount": 175,
+      "score": 42,
+      "scoreLabel": "Critical"
+    },
+    "stagingBrowser": {
+      "origin": "https://localhost:4443",
+      "login": "confirmed via local capture",
+      "publication": "EN/RU runtime",
+      "queue": "32 candidates across pages",
+      "manualRun": "queued or deduplicated/rate limited",
+      "pageErrors": 0
+    },
+    "accessibility": {
+      "publicRoutes": [
+        "/skills",
+        "/ru/skills",
+        "/collections",
+        "/login",
+        "/account"
+      ],
+      "authenticatedRoute": "/admin?tab=intake",
+      "tags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21aa"
+      ],
+      "violations": 0,
+      "scope": "Selected routes; does not certify every screen"
+    },
+    "postActivationOrigin": {
+      "createdAt": "2026-10-04T18:23:00.886Z",
+      "origin": "http://127.0.0.1:4320",
+      "checks": [
+        {
+          "path": "/skills",
+          "method": "GET",
+          "status": 200
+        },
+        {
+          "path": "/ru/skills",
+          "method": "GET",
+          "status": 200
+        },
+        {
+          "path": "/api/health",
+          "method": "GET",
+          "status": 200
+        },
+        {
+          "path": "/api/auth/session",
+          "method": "GET",
+          "status": 200
+        },
+        {
+          "path": "/api/admin/intake",
+          "method": "GET",
+          "status": 401
+        },
+        {
+          "path": "/api/catalog",
+          "method": "HEAD",
+          "status": 200
+        },
+        {
+          "path": "/missing-production-check",
+          "method": "GET",
+          "status": 404
+        },
+        {
+          "path": "/skills.html",
+          "method": "GET",
+          "status": 308
+        }
+      ]
+    },
+    "legacyAssets": {
+      "origin": "http://127.0.0.1:4320",
+      "legacyResources": 19,
+      "bytes": 971278,
+      "hashes": "verified"
+    },
+    "stagingWorkerIsolation": {
+      "productionAuthReadable": false,
+      "productionSmtpReadable": false,
+      "stagingAuthReadable": false
+    },
+    "operationalMonitor": {
+      "schemaVersion": 1,
+      "checkedAt": 1791138180587,
+      "healthy": true,
+      "databaseHealthy": true,
+      "queueHealthy": true,
+      "paused": false,
+      "intervalHours": 24,
+      "lastRunAt": 1791134630404,
+      "lastRunStatus": "complete",
+      "backupAt": 1791138121714,
+      "backupValid": true,
+      "freeBytes": 112146825216,
+      "issues": []
+    },
+    "backupRestoreQueueReplay": {
+      "createdAt": "2026-10-04T17:35:47.774Z",
+      "restoredQueue": {
+        "state": "complete",
+        "attempts": 2
+      },
+      "originalQueue": "complete",
+      "productionModified": false
+    },
+    "stagingRollbackRehearsal": {
+      "scope": "isolated staging",
+      "configurationSha256": "86e455c3ecc717ee50fb632a1ecab5725b398318ea7f39442f4acbc65c1de9a9",
+      "checks": [
+        {
+          "failure": "startup",
+          "restoredStatus": 200,
+          "databaseRollback": false
+        },
+        {
+          "failure": "health",
+          "restoredStatus": 200,
+          "databaseRollback": false
+        }
+      ]
+    },
+    "loadSample": {
+      "createdAt": "2026-10-04T17:22:43.778Z",
+      "origin": "https://localhost:4443",
+      "concurrency": 20,
+      "count": 120,
+      "passed": true,
+      "byPath": [
+        {
+          "path": "/skills",
+          "requests": 40,
+          "errors": 0,
+          "p95Ms": 328,
+          "maxBytes": 59071,
+          "targetMs": 1000
+        },
+        {
+          "path": "/ru/skills",
+          "requests": 40,
+          "errors": 0,
+          "p95Ms": 320,
+          "maxBytes": 59862,
+          "targetMs": 1000
+        },
+        {
+          "path": "/api/catalog?pageSize=6",
+          "requests": 40,
+          "errors": 0,
+          "p95Ms": 281,
+          "maxBytes": 4426,
+          "targetMs": 500
+        }
+      ],
+      "stagingRelease": "20261004-production-phase5",
+      "syntheticRecords": 2005,
+      "longRunningConcurrentIntakeNotVerified": true
+    },
+    "observedMemoryPeak": {
+      "stagingBytes": 147873792,
+      "originBytes": 141881344,
+      "scope": "Earlier service snapshot; not a 72-hour measurement"
+    },
+    "protectedSitesFilesChanged": false,
+    "liveStagingRuns": {
+      "requests": [
+        {
+          "id": "7f59c740-49bb-4c7a-abc7-172280e7f951",
+          "status": "complete"
+        }
+      ],
+      "runs": [
+        {
+          "status": "complete",
+          "summary": {
+            "repositories": 3,
+            "completed": 3,
+            "failed": 0,
+            "skipped": 0,
+            "blocked": 0
+          },
+          "manualRequestId": "7f59c740-49bb-4c7a-abc7-172280e7f951",
+          "githubCooldownUntil": 0
+        },
+        {
+          "status": "complete",
+          "summary": {
+            "repositories": 3,
+            "completed": 2,
+            "failed": 0,
+            "skipped": 0,
+            "blocked": 1
+          },
+          "manualRequestId": null,
+          "githubCooldownUntil": 0
+        }
+      ]
+    }
+  },
+  "liveSourceCycle": {
+    "scope": "Earlier bounded origin cycle before public cutover",
+    "repositories": 5,
+    "completed": 2,
+    "blocked": 1,
+    "failed": 0,
+    "automaticPublicationByDefault": false
+  },
+  "liveActionsDownloadVerified": false,
+  "realOwnerLoginVerified": false,
+  "realMailDeliveryVerified": false,
+  "notificationsDelivered": false,
+  "observations": {
+    "stagingRequiredHours": 72,
+    "stagingCompleted": false,
+    "postOpeningRequiredDays": 7,
+    "postOpeningStarted": false,
+    "stagingActiveSince": "Sun 2026-10-04 18:22:03 UTC"
+  },
+  "limitations": [
+    "Cloudflare authentication/cutover and full-chain staging/public checks pending",
+    "Owner sign-in, real mail delivery and mail-domain evidence pending",
+    "Selected real GitHub builds, Actions credential/scopes and approved workflows pending",
+    "Notification recipient/delivery and external pilot pending",
+    "GitHub unauthenticated rate limit occurred on staging; queue cooldown/recovery guards implemented",
+    "React Doctor: 0 errors, 175 warnings, score 42 Critical; warnings remain",
+    "Remote GitHub CI not executed; no git commit/push performed"
+  ]
+}
